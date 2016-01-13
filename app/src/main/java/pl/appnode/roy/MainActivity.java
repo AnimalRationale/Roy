@@ -19,9 +19,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void checkBattery(View button) {
+    public void showBatteryLevel(View button) {
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
-        batteryLevel.setText("Battery: " + getBatteryLevel() + "%");
+        batteryLevel.setText(getString(R.string.battery_level) + getBatteryLevel()
+                + getString(R.string.percent));
     }
 
     public int getBatteryLevel() {

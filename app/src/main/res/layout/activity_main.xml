@@ -14,20 +14,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="No data" />
+        android:text="@string/no_data" />
     <TextView
         android:id="@+id/text_battery_level_check_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_battery_level"
         android:layout_centerHorizontal="true"
-        android:text="N/A" />
+        android:text="@string/not_available" />
     <Button
-        android:id="@+id/button0"
+        android:id="@+id/button_battery_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check battery"
+        android:text="@string/button_check_battery"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/text_battery_level_check_time"
-        android:onClick="checkBattery"/>
+        android:onClick="showBatteryLevel"/>
 </RelativeLayout>
