@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,16 +20,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkBattery(View button) {
-        Log.d(LOGTAG, "Checking battery level: " + getBatteryLevel());
+        TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
+        batteryLevel.setText("Battery: " + getBatteryLevel() + "%");
     }
 
-    public String getBatteryLevel() {
+    public int getBatteryLevel() {
         Intent batteryIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         if (level == -1 || scale == -1) {
-            return "Error";
+            return -1;
         }
-        return "" + (level / (float)scale) * 100;
+        return (int)((level / (float)scale) * 100);
     }
 }
