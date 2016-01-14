@@ -9,4 +9,9 @@
     <string name="button_check_battery">Check battery</string>
 
     <string name="error_battery_check">Error</string>
+
+    <string name="battery_plugged_usb">Plugged USB</string>
+    <string name="battery_plugged_ac">Plugged AC</string>
+    <string name="battery_plugged_wireless">Plugged :) wireless</string>
+    <string name="battery_not_plugged">Not plugged</string>
 </resources>
