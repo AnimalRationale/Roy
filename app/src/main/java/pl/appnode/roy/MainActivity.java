@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "MainActivity";
 
+    private static final int BATTERY_CHECK_ERROR = -1;
+
     private static final int BATTERY_NOT_PLUGGED = 0;
     private static final int BATTERY_PLUGGED_AC = 1;
     private static final int BATTERY_PLUGGED_USB = 2;
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
             case BATTERY_PLUGGED_WIRELESS:
                 batteryPlugged.setText(getString(R.string.battery_plugged_wireless));
                 break;
+            case BATTERY_CHECK_ERROR:
+                batteryPlugged.setText(getString(R.string.error_battery_check));
+                break;
             default: BATTERY_NOT_PLUGGED:
                 batteryPlugged.setText(getString(R.string.battery_not_plugged));
         }
@@ -49,16 +54,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getBatteryLevel() {
-        int level = getBattery().getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = getBattery().getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        if (level == -1 || scale == -1) {
-            return -1;
+        int level = getBattery().getIntExtra(BatteryManager.EXTRA_LEVEL, BATTERY_CHECK_ERROR);
+        int scale = getBattery().getIntExtra(BatteryManager.EXTRA_SCALE, BATTERY_CHECK_ERROR);
+        if (level == BATTERY_CHECK_ERROR || scale == BATTERY_CHECK_ERROR) {
+            return BATTERY_CHECK_ERROR;
         }
         return (int)((level / (float)scale) * 100);
     }
 
     private int getBatteryPluggedStatus() {
-        int status = getBattery().getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        int status = getBattery().getIntExtra(BatteryManager.EXTRA_PLUGGED, BATTERY_CHECK_ERROR);
         int batteryPluggedStatus;
         switch (status) {
             case BatteryManager.BATTERY_PLUGGED_USB:
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case BatteryManager.BATTERY_PLUGGED_WIRELESS:
                 batteryPluggedStatus = BATTERY_PLUGGED_WIRELESS;
+                break;
+            case BATTERY_CHECK_ERROR:
+                batteryPluggedStatus = BATTERY_CHECK_ERROR;
                 break;
             default:
                 batteryPluggedStatus = BATTERY_NOT_PLUGGED;
