@@ -27,6 +27,20 @@ public class MainActivity extends AppCompatActivity {
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
         batteryLevel.setText(getString(R.string.battery_level) + getBatteryLevel()
                 + getString(R.string.percent));
+        TextView batteryPlugged = (TextView) findViewById(R.id.text_battery_plugged);
+        switch (getBatteryPluggedStatus()) {
+            case BATTERY_PLUGGED_AC:
+                batteryPlugged.setText("Plugged AC");
+                break;
+            case BATTERY_PLUGGED_USB:
+                batteryPlugged.setText("Plugged USB");
+                break;
+            case BATTERY_PLUGGED_WIRELESS:
+                batteryPlugged.setText("Plugged :) wireless");
+                break;
+            default: BATTERY_NOT_PLUGGED:
+                batteryPlugged.setText("Not plugged");
+        }
     }
 
     private Intent getBattery() {
@@ -46,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private int getBatteryPluggedStatus() {
         int status = getBattery().getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         int batteryPluggedStatus;
-
         switch (status) {
             case BatteryManager.BATTERY_PLUGGED_USB:
                 batteryPluggedStatus = BATTERY_PLUGGED_USB;
