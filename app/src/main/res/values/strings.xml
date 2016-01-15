@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Roy</string>
 
-    <string name="battery_level">Battery level:</string>
+    <string name="battery_level_description">Battery level:</string>
     <string name="percent">%</string>
 
     <string name="no_data">No data</string>
