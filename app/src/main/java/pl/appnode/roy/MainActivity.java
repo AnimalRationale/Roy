@@ -2,10 +2,14 @@ package pl.appnode.roy;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.BatteryManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +30,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showBatteryLevel(View button) {
+        int batteryLevelValue = getBatteryLevel();
+        int indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
+        batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
+        batteryLevelIndicator.setProgress(batteryLevelValue);
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
-        batteryLevel.setText(getBatteryLevel()
+        batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
         TextView batteryPlugged = (TextView) findViewById(R.id.text_battery_plugged);
         switch (getBatteryPluggedStatus()) {
@@ -82,5 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 batteryPluggedStatus = BATTERY_NOT_PLUGGED;
         }
         return batteryPluggedStatus;
+    }
+
+    private int argbColor(int colorResource) {
+        int color = Color.argb(Color.alpha(colorResource),
+                Color.red(colorResource),
+                Color.green(colorResource),
+                Color.blue(colorResource));
+        return color;
     }
 }
