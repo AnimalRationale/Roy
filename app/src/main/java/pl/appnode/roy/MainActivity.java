@@ -23,10 +23,21 @@ public class MainActivity extends AppCompatActivity {
     private static final int BATTERY_PLUGGED_USB = 2;
     private static final int BATTERY_PLUGGED_WIRELESS = 3;
 
+    private static final int BATTERY_MAX_LEVEL = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set battery level indicator to full circle with "empty" color, indicator atm should show
+        // actual bettery level only after button click
+        ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
+        batteryLevelIndicator.setProgress(BATTERY_MAX_LEVEL);
     }
 
     public void showBatteryLevel(View button) {

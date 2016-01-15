@@ -7,6 +7,6 @@
         android:innerRadiusRatio="2.2"
         android:shape="ring"
         android:thickness="2.5sp" >
-        <solid android:color="@color/colorBatteryEmptyProgressBar" />
+        <solid android:color="@color/colorBatteryLevelProgressBarInitial" />
     </shape>
 </rotate>
