@@ -14,4 +14,10 @@
     <string name="battery_plugged_ac">Plugged AC</string>
     <string name="battery_plugged_wireless">Plugged :) wireless</string>
     <string name="battery_not_plugged">Not plugged</string>
+
+    <string name="dialog_about_title"></string>
+    <string name="dialog_about_version">Version: \u0020</string>
+    <string name="dialog_about_ok">OK</string>
+    <string name="dialog_about_version_name_error">\?</string>
+    <string name="dialog_about_version_code_error">\?</string>
 </resources>
