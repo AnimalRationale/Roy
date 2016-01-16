@@ -1,5 +1,6 @@
 package pl.appnode.roy;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -8,6 +9,8 @@ import android.os.BatteryManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher);
+        }
     }
 
     @Override
@@ -38,6 +46,21 @@ public class MainActivity extends AppCompatActivity {
         // actual bettery level only after button click
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.setProgress(BATTERY_MAX_LEVEL);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_about) {
+            AboutDialog.showDialog(MainActivity.this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void showBatteryLevel(View button) {
