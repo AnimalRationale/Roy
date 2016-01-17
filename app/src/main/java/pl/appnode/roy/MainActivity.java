@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int BATTERY_PLUGGED_USB = 2;
     private static final int BATTERY_PLUGGED_WIRELESS = 3;
 
+    private static final int BATTERY_DISCHARGING = 0;
+    private static final int BATTERY_CHARGING = 1;
+
     private static final int BATTERY_MAX_LEVEL = 100;
 
     @Override
@@ -89,6 +92,17 @@ public class MainActivity extends AppCompatActivity {
             default: BATTERY_NOT_PLUGGED:
                 batteryPlugged.setText(getString(R.string.battery_not_plugged));
         }
+        TextView batteryCharge = (TextView) findViewById(R.id.text_battery_charge_status);
+        switch (getBatteryChargingStatus()) {
+            case BATTERY_CHARGING:
+                batteryCharge.setText(getString(R.string.battery_charging));
+                break;
+            case BATTERY_DISCHARGING:
+                batteryCharge.setText(getString(R.string.battery_discharging));
+                break;
+            default:
+                 batteryCharge.setText(getString(R.string.error_battery_check));
+        }
     }
 
     private Intent getBattery() {
@@ -125,6 +139,22 @@ public class MainActivity extends AppCompatActivity {
                 batteryPluggedStatus = BATTERY_NOT_PLUGGED;
         }
         return batteryPluggedStatus;
+    }
+
+    private int getBatteryChargingStatus() {
+        int status = getBattery().getIntExtra(BatteryManager.EXTRA_STATUS, BATTERY_CHECK_ERROR);
+        int batteryChargeStatus;
+        switch (status) {
+            case BatteryManager.BATTERY_STATUS_CHARGING:
+                batteryChargeStatus = BATTERY_CHARGING;
+                break;
+            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                batteryChargeStatus = BATTERY_DISCHARGING;
+                break;
+            default:
+                batteryChargeStatus = BATTERY_CHECK_ERROR;
+        }
+        return batteryChargeStatus;
     }
 
     private int argbColor(int colorResource) {

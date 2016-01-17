@@ -52,10 +52,17 @@
         android:layout_centerHorizontal="true"
         android:text="@string/not_available" />
     <TextView
-        android:id="@+id/text_battery_level_check_time"
+        android:id="@+id/text_battery_charge_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_battery_plugged"
+        android:layout_centerHorizontal="true"
+        android:text="@string/not_available" />
+    <TextView
+        android:id="@+id/text_battery_level_check_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_battery_charge_status"
         android:layout_centerHorizontal="true"
         android:text="@string/not_available" />
     <Button
