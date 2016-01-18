@@ -70,7 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void showBatteryLevel(View button) {
         int batteryLevelValue = getBatteryLevel();
-        int indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        int indicatorColor;
+        if (batteryLevelValue > 49) {
+            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        } else
+        if (batteryLevelValue > 25) {
+            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorWarning));
+        }
+        else
+            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorAccent));
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
         batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
@@ -162,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private void batteryLevelIndicatorAnimation(final ProgressBar progressBar, int batteryLevel) {
             ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, batteryLevel);
             animation.setInterpolator(new AccelerateInterpolator());
-            animation.setDuration(700);
+            animation.setDuration(500);
             animation.start();
     }
 
