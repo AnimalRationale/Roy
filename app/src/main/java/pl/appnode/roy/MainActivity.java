@@ -47,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        // Set battery level indicator to full circle with "empty" color, indicator atm should show
-        // actual bettery level only after button click
-        ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
-        batteryLevelIndicator.setProgress(BATTERY_MAX_LEVEL);
+        showBatteryLevel();
     }
 
     @Override
@@ -68,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showBatteryLevel(View button) {
+    public void showBatteryLevelButton(View button) {
+        showBatteryLevel();
+    }
+
+    public void showBatteryLevel() {
         int batteryLevelValue = getBatteryLevel();
         int indicatorColor;
         if (batteryLevelValue > 49) {
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private void batteryLevelIndicatorAnimation(final ProgressBar progressBar, int batteryLevel) {
             ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, batteryLevel);
             animation.setInterpolator(new AccelerateInterpolator());
-            animation.setDuration(500);
+            animation.setDuration(700);
             animation.start();
     }
 

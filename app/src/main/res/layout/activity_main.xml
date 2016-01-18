@@ -72,5 +72,5 @@
         android:text="@string/button_check_battery"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/text_battery_level_check_time"
-        android:onClick="showBatteryLevel"/>
+        android:onClick="showBatteryLevelButton"/>
 </RelativeLayout>
