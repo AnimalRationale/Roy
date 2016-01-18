@@ -1,5 +1,6 @@
 package pl.appnode.roy;
 
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         int indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
-        batteryLevelIndicator.setProgress(batteryLevelValue);
+        batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
@@ -155,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
                 batteryChargeStatus = BATTERY_CHECK_ERROR;
         }
         return batteryChargeStatus;
+    }
+
+    private void batteryLevelIndicatorAnimation(final ProgressBar progressBar, int batteryLevel) {
+            ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, batteryLevel);
+            animation.setInterpolator(new AccelerateInterpolator());
+            animation.setDuration(700);
+            animation.start();
     }
 
     private int argbColor(int colorResource) {
