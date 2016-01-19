@@ -17,21 +17,18 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import static pl.appnode.roy.Constants.BATTERY_CHARGING;
+import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
+import static pl.appnode.roy.Constants.BATTERY_DISCHARGING;
+import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
+import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
+import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
+import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "MainActivity";
-
-    private static final int BATTERY_CHECK_ERROR = -1;
-
-    private static final int BATTERY_NOT_PLUGGED = 0;
-    private static final int BATTERY_PLUGGED_AC = 1;
-    private static final int BATTERY_PLUGGED_USB = 2;
-    private static final int BATTERY_PLUGGED_WIRELESS = 3;
-
-    private static final int BATTERY_DISCHARGING = 0;
-    private static final int BATTERY_CHARGING = 1;
-
-    private static final int BATTERY_MAX_LEVEL = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             case BATTERY_CHECK_ERROR:
                 batteryPlugged.setText(getString(R.string.error_battery_check));
                 break;
-            default: BATTERY_NOT_PLUGGED:
+            default:
                 batteryPlugged.setText(getString(R.string.battery_not_plugged));
         }
         TextView batteryCharge = (TextView) findViewById(R.id.text_battery_charge_status);
