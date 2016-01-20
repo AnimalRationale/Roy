@@ -29,6 +29,7 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "MainActivity";
+    private BatteryItem localBattery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +112,50 @@ public class MainActivity extends AppCompatActivity {
             default:
                  batteryCharge.setText(getString(R.string.error_battery_check));
         }
+    }
+
+    private void readLocalBatteryStatus() {
+        Intent getBattery = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        // Reads battery level data
+        int level = getBattery.getIntExtra(BatteryManager.EXTRA_LEVEL, BATTERY_CHECK_ERROR);
+        int scale = getBattery.getIntExtra(BatteryManager.EXTRA_SCALE, BATTERY_CHECK_ERROR);
+        if (level == BATTERY_CHECK_ERROR || scale == BATTERY_CHECK_ERROR) {
+            localBattery.batteryLevel = BATTERY_CHECK_ERROR;
+        } else localBattery.batteryLevel = (int)((level / (float)scale) * 100);
+        // Checks if device is plugged
+        int pluggedStatus = getBattery.getIntExtra(BatteryManager.EXTRA_PLUGGED, BATTERY_CHECK_ERROR);
+        int batteryPluggedStatus;
+        switch (pluggedStatus) {
+            case BatteryManager.BATTERY_PLUGGED_USB:
+                batteryPluggedStatus = BATTERY_PLUGGED_USB;
+                break;
+            case BatteryManager.BATTERY_PLUGGED_AC:
+                batteryPluggedStatus = BATTERY_PLUGGED_AC;
+                break;
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
+                batteryPluggedStatus = BATTERY_PLUGGED_WIRELESS;
+                break;
+            case BATTERY_CHECK_ERROR:
+                batteryPluggedStatus = BATTERY_CHECK_ERROR;
+                break;
+            default:
+                batteryPluggedStatus = BATTERY_NOT_PLUGGED;
+        }
+        localBattery.batteryPluggedStatus =  batteryPluggedStatus;
+        // Checks if battery is charging/discharging
+        int chargingStatus = getBattery().getIntExtra(BatteryManager.EXTRA_STATUS, BATTERY_CHECK_ERROR);
+        int batteryChargeStatus;
+        switch (chargingStatus) {
+            case BatteryManager.BATTERY_STATUS_CHARGING:
+                batteryChargeStatus = BATTERY_CHARGING;
+                break;
+            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                batteryChargeStatus = BATTERY_DISCHARGING;
+                break;
+            default:
+                batteryChargeStatus = BATTERY_CHECK_ERROR;
+        }
+        localBattery.batteryChargingStatus = batteryChargeStatus;
     }
 
     private Intent getBattery() {
