@@ -10,6 +10,7 @@ import android.os.BatteryManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,7 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "MainActivity";
-    private BatteryItem localBattery;
+    private BatteryItem localBattery = new BatteryItem();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showBatteryLevel() {
-        int batteryLevelValue = getBatteryLevel();
+        readLocalBatteryStatus();
+        int batteryLevelValue = localBattery.batteryLevel;
         int indicatorColor;
         if (batteryLevelValue > 49) {
             indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
         TextView batteryPlugged = (TextView) findViewById(R.id.text_battery_plugged);
-        switch (getBatteryPluggedStatus()) {
+        switch (localBattery.batteryPluggedStatus) {
             case BATTERY_PLUGGED_AC:
                 batteryPlugged.setText(getString(R.string.battery_plugged_ac));
                 break;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 batteryPlugged.setText(getString(R.string.battery_not_plugged));
         }
         TextView batteryCharge = (TextView) findViewById(R.id.text_battery_charge_status);
-        switch (getBatteryChargingStatus()) {
+        switch (localBattery.batteryChargingStatus) {
             case BATTERY_CHARGING:
                 batteryCharge.setText(getString(R.string.battery_charging));
                 break;
