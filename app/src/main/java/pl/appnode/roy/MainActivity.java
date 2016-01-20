@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         }
         localBattery.batteryPluggedStatus =  batteryPluggedStatus;
         // Checks if battery is charging/discharging
-        int chargingStatus = getBattery().getIntExtra(BatteryManager.EXTRA_STATUS, BATTERY_CHECK_ERROR);
+        int chargingStatus = getBattery.getIntExtra(BatteryManager.EXTRA_STATUS, BATTERY_CHECK_ERROR);
         int batteryChargeStatus;
         switch (chargingStatus) {
             case BatteryManager.BATTERY_STATUS_CHARGING:
@@ -158,58 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 batteryChargeStatus = BATTERY_CHECK_ERROR;
         }
         localBattery.batteryChargingStatus = batteryChargeStatus;
-    }
-
-    private Intent getBattery() {
-        Intent batteryIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        return batteryIntent;
-    }
-
-    private int getBatteryLevel() {
-        int level = getBattery().getIntExtra(BatteryManager.EXTRA_LEVEL, BATTERY_CHECK_ERROR);
-        int scale = getBattery().getIntExtra(BatteryManager.EXTRA_SCALE, BATTERY_CHECK_ERROR);
-        if (level == BATTERY_CHECK_ERROR || scale == BATTERY_CHECK_ERROR) {
-            return BATTERY_CHECK_ERROR;
-        }
-        return (int)((level / (float)scale) * 100);
-    }
-
-    private int getBatteryPluggedStatus() {
-        int status = getBattery().getIntExtra(BatteryManager.EXTRA_PLUGGED, BATTERY_CHECK_ERROR);
-        int batteryPluggedStatus;
-        switch (status) {
-            case BatteryManager.BATTERY_PLUGGED_USB:
-                batteryPluggedStatus = BATTERY_PLUGGED_USB;
-                break;
-            case BatteryManager.BATTERY_PLUGGED_AC:
-                batteryPluggedStatus = BATTERY_PLUGGED_AC;
-                break;
-            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                batteryPluggedStatus = BATTERY_PLUGGED_WIRELESS;
-                break;
-            case BATTERY_CHECK_ERROR:
-                batteryPluggedStatus = BATTERY_CHECK_ERROR;
-                break;
-            default:
-                batteryPluggedStatus = BATTERY_NOT_PLUGGED;
-        }
-        return batteryPluggedStatus;
-    }
-
-    private int getBatteryChargingStatus() {
-        int status = getBattery().getIntExtra(BatteryManager.EXTRA_STATUS, BATTERY_CHECK_ERROR);
-        int batteryChargeStatus;
-        switch (status) {
-            case BatteryManager.BATTERY_STATUS_CHARGING:
-                batteryChargeStatus = BATTERY_CHARGING;
-                break;
-            case BatteryManager.BATTERY_STATUS_DISCHARGING:
-                batteryChargeStatus = BATTERY_DISCHARGING;
-                break;
-            default:
-                batteryChargeStatus = BATTERY_CHECK_ERROR;
-        }
-        return batteryChargeStatus;
     }
 
     private void batteryLevelIndicatorAnimation(final ProgressBar progressBar, int batteryLevel) {
