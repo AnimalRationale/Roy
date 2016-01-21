@@ -24,7 +24,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="0dp">
         <ProgressBar
             android:id="@+id/battery_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -45,11 +45,30 @@
             android:layout_marginLeft="0dp"
             android:text="@string/not_available" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/battery_status_icons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/battery_level_container"
+        android:layout_marginRight="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="2dp">
+        <ImageView
+            android:id="@+id/icon_plugged_usb"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_device_usb"
+            android:gravity="center_horizontal"
+            android:padding="5dip"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/text_battery_plugged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/battery_level_container"
+        android:layout_below="@id/battery_status_icons"
         android:layout_centerHorizontal="true"
         android:text="@string/not_available" />
     <TextView
