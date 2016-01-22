@@ -89,12 +89,19 @@ public class MainActivity extends AppCompatActivity {
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
+        ImageView batteryCharging = (ImageView) findViewById(R.id.icon_battery_charging);
+        batteryCharging.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
+        ImageView batteryPluggedWireless = (ImageView) findViewById(R.id.icon_plugged_wireless);
+        batteryPluggedWireless.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
+        ImageView batteryPluggedPower = (ImageView) findViewById(R.id.icon_plugged_ac);
+        batteryPluggedPower.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
         ImageView batteryPluggedUSB = (ImageView) findViewById(R.id.icon_plugged_usb);
         batteryPluggedUSB.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
         TextView batteryPlugged = (TextView) findViewById(R.id.text_battery_plugged);
         switch (localBattery.batteryPluggedStatus) {
             case BATTERY_PLUGGED_AC:
                 batteryPlugged.setText(getString(R.string.battery_plugged_ac));
+                batteryPluggedPower.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
                 break;
             case BATTERY_PLUGGED_USB:
                 batteryPlugged.setText(getString(R.string.battery_plugged_usb));
@@ -102,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case BATTERY_PLUGGED_WIRELESS:
                 batteryPlugged.setText(getString(R.string.battery_plugged_wireless));
+                batteryPluggedWireless.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
                 break;
             case BATTERY_CHECK_ERROR:
                 batteryPlugged.setText(getString(R.string.error_battery_check));
@@ -113,9 +121,11 @@ public class MainActivity extends AppCompatActivity {
         switch (localBattery.batteryChargingStatus) {
             case BATTERY_CHARGING:
                 batteryCharge.setText(getString(R.string.battery_charging));
+                batteryCharging.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
                 break;
             case BATTERY_DISCHARGING:
                 batteryCharge.setText(getString(R.string.battery_discharging));
+                batteryCharging.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
                 break;
             default:
                  batteryCharge.setText(getString(R.string.error_battery_check));
