@@ -73,14 +73,16 @@ public class MainActivity extends AppCompatActivity {
         readLocalBatteryStatus();
         int batteryLevelValue = localBattery.batteryLevel;
         int indicatorColor;
+        int iconDefaultColor;
         if (batteryLevelValue > 49) {
             indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
         } else
         if (batteryLevelValue > 25) {
-            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorWarning));
+            indicatorColor = argbColor(ContextCompat.getColor(this, R.color.colorWarning));
         }
         else
-            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorAccent));
+            indicatorColor = argbColor(ContextCompat.getColor(this, R.color.colorAccent));
+        iconDefaultColor = argbColor(ContextCompat.getColor(this, R.color.colorBatteryLevelProgressBarInitial));
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
         batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
         ImageView batteryPluggedUSB = (ImageView) findViewById(R.id.icon_plugged_usb);
-        batteryPluggedUSB.setVisibility(View.INVISIBLE);
+        batteryPluggedUSB.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
         TextView batteryPlugged = (TextView) findViewById(R.id.text_battery_plugged);
         switch (localBattery.batteryPluggedStatus) {
             case BATTERY_PLUGGED_AC:
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case BATTERY_PLUGGED_USB:
                 batteryPlugged.setText(getString(R.string.battery_plugged_usb));
-                batteryPluggedUSB.setVisibility(View.VISIBLE);
+                batteryPluggedUSB.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
                 break;
             case BATTERY_PLUGGED_WIRELESS:
                 batteryPlugged.setText(getString(R.string.battery_plugged_wireless));
