@@ -33,6 +33,7 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "MainActivity";
+    private int mBatteryIndicatorAnimationCounter;
     private BatteryItem localBattery = new BatteryItem();
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        mBatteryIndicatorAnimationCounter = 0;
         showBatteryLevel();
         IntentFilter screenStatusIntentFilter = new IntentFilter();
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
@@ -103,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
         iconDefaultColor = argbColor(ContextCompat.getColor(this, R.color.colorBatteryLevelProgressBarInitial));
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
-        batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
+        if (mBatteryIndicatorAnimationCounter == 0) {
+            mBatteryIndicatorAnimationCounter = 1;
+            batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
+        }
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
