@@ -2,6 +2,8 @@ package pl.appnode.roy;
 
 import android.animation.ObjectAnimator;
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -33,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGTAG = "MainActivity";
     private BatteryItem localBattery = new BatteryItem();
 
+    private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            showBatteryLevel();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         showBatteryLevel();
+        IntentFilter screenStatusIntentFilter = new IntentFilter();
+        screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(mPowerConnectionBroadcastReceiver);
     }
 
     @Override
