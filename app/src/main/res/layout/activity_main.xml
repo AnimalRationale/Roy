@@ -56,27 +56,28 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="2dp">
         <ImageView
-            android:id="@+id/icon_plugged_usb"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_device_usb"
-            android:padding="1dp"/>
-        <ImageView
             android:id="@+id/icon_plugged_ac"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_power_24px"
-            android:layout_toRightOf="@id/icon_plugged_usb"
             android:padding="1dp"/>
+        <ImageView
+            android:id="@+id/icon_plugged_usb"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_toRightOf="@id/icon_plugged_ac"
+            android:src="@drawable/ic_device_usb"
+            android:padding="1dp"/>
+
         <ImageView
             android:id="@+id/icon_plugged_wireless"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_nfc_24px"
-            android:layout_toRightOf="@id/icon_plugged_ac"
+            android:layout_toRightOf="@id/icon_plugged_usb"
             android:padding="1dp"/>
         <ImageView
             android:id="@+id/icon_battery_charging"

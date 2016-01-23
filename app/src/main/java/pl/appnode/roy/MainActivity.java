@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 batteryCharging.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
                 break;
             default:
-                 batteryCharge.setText(getString(R.string.error_battery_check));
+                 batteryCharge.setText(getString(R.string.not_available));
         }
     }
 
