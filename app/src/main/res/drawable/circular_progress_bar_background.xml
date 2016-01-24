@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:useLevel="false"
-    android:innerRadiusRatio="2.2"
+    android:innerRadiusRatio="@dimen/battery_level_inner_radius_ratio"
     android:shape="ring"
-    android:thickness="2.5sp" >
+    android:thickness="@dimen/battery_level_thickness" >
     <solid android:color="@color/colorBatteryLevelProgressBarInitial" />
 </shape>

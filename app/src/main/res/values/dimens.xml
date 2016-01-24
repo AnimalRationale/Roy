@@ -2,4 +2,16 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Battery level indicator margins, width, height, inner radius ratio and thickness. -->
+    <dimen name="battery_level_margin">2dp</dimen>
+    <dimen name="battery_level_width">60dp</dimen>
+    <dimen name="battery_level_height">60dp</dimen>
+    <item name="battery_level_inner_radius_ratio" type="dimen" format="float">2.2</item>
+    <dimen name="battery_level_thickness">2.5sp</dimen>
+
+    <!-- Battery/device status icons margins and paddings. -->
+    <dimen name="icon_status_margins">0dp</dimen>
+    <dimen name="icon_status_padding">0dp</dimen>
+
 </resources>

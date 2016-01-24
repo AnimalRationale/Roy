@@ -3,4 +3,15 @@
          (such as screen margins) for screens with more than 820dp of available width. This
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
     <dimen name="activity_horizontal_margin">64dp</dimen>
+
+    <!-- Battery level indicator margins, width, height, inner radius ratio and thickness. -->
+    <dimen name="battery_level_margin">4dp</dimen>
+    <dimen name="battery_level_width">80dp</dimen>
+    <dimen name="battery_level_height">80dp</dimen>
+    <item name="battery_level_inner_radius_ratio" type="dimen" format="float">2.6</item>
+    <dimen name="battery_level_thickness">4.5sp</dimen>
+
+    <!-- Battery/device status icons margins and paddings. -->
+    <dimen name="icon_status_margins">0dp</dimen>
+    <dimen name="icon_status_padding">0dp</dimen>
 </resources>

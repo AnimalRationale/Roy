@@ -28,9 +28,9 @@
         <ProgressBar
             android:id="@+id/battery_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="2dp"
+            android:layout_width="@dimen/battery_level_width"
+            android:layout_height="@dimen/battery_level_height"
+            android:layout_margin="@dimen/battery_level_margin"
             android:layout_centerInParent="true"
             android:background="@drawable/circular_progress_bar_background"
             android:progressDrawable="@drawable/circular_progress_bar"
@@ -59,34 +59,45 @@
             android:id="@+id/icon_plugged_ac"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_margin="@dimen/icon_status_margins"
+            android:padding="@dimen/icon_status_padding"
+            android:cropToPadding="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_power_24px"
-            android:padding="1dp"/>
+            />
         <ImageView
             android:id="@+id/icon_plugged_usb"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_margin="@dimen/icon_status_margins"
+            android:padding="@dimen/icon_status_padding"
+            android:cropToPadding="true"
             android:scaleType="centerCrop"
             android:layout_toRightOf="@id/icon_plugged_ac"
             android:src="@drawable/ic_device_usb"
-            android:padding="1dp"/>
-
+            />
         <ImageView
             android:id="@+id/icon_plugged_wireless"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_margin="@dimen/icon_status_margins"
+            android:padding="@dimen/icon_status_padding"
+            android:cropToPadding="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_nfc_24px"
             android:layout_toRightOf="@id/icon_plugged_usb"
-            android:padding="1dp"/>
+            />
         <ImageView
             android:id="@+id/icon_battery_charging"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_margin="@dimen/icon_status_margins"
+            android:padding="@dimen/icon_status_padding"
+            android:cropToPadding="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_device_battery_charging_60"
             android:layout_toRightOf="@id/icon_plugged_wireless"
-            android:padding="1dp"/>
+            />
     </RelativeLayout>
     <TextView
         android:id="@+id/text_battery_plugged"
