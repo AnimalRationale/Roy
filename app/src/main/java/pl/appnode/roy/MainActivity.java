@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
@@ -213,4 +216,22 @@ public class MainActivity extends AppCompatActivity {
                 Color.blue(colorResource));
         return color;
     }
+
+    /**
+     * Checks if device has available network connection.
+     *
+     * @return true if device has available network connection
+     */
+    private boolean isConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if ((networkInfo == null) || (!networkInfo.isConnected())) {
+            Toast toast = Toast.makeText(this,
+                    R.string.error_network_access, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+        return true;
+    }
+
 }

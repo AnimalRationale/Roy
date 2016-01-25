@@ -9,6 +9,7 @@
     <string name="button_check_battery">Check battery</string>
 
     <string name="error_battery_check">Error</string>
+    <string name="error_network_access">No Internet connection</string>
 
     <string name="battery_plugged_usb">Plugged USB</string>
     <string name="battery_plugged_ac">Plugged AC</string>
