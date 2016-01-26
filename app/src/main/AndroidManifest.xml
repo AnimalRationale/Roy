@@ -15,6 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/preferences_activity_title" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.appnode.roy.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

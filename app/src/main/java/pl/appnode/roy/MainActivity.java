@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, PreferencesActivity.class);
+            this.startActivity(settingsIntent);
+        }
         if (id == R.id.action_about) {
             AboutDialog.showDialog(MainActivity.this);
         }
