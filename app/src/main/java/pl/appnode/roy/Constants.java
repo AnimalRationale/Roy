@@ -16,4 +16,10 @@ final class Constants {
 
     static final int BATTERY_DISCHARGING = 0;
     static final int BATTERY_CHARGING = 1;
+
+    /** Keys for saving app settings (theme, orientation, colors transitions) and first run check). */
+    public static final String KEY_SETTINGS_THEME = "settings_checkbox_theme";
+    public static final String KEY_SETTINGS_ORIENTATION = "settings_checkbox_orientation";
+    public static final String KEY_SETTINGS_TRANSITIONS = "settings_checkbox_transitions";
+    public static final String KEY_SETTINGS_FIRSTRUN = "settings_first_run";
 }
