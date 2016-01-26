@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/preferences_app_settings_title"
+        android:key="pref_key_app_settings">
+        <CheckBoxPreference
+            android:key="settings_checkbox_upload_battery_status"
+            android:title="@string/preferences_checkbox_upload_battery_status"
+            android:icon="@drawable/ic_cloud_upload_24px"
+            android:summary="@string/preferences_checkbox_upload_battery_status_description"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preferences_visual_settings_title"
+        android:key="pref_key_visual_settings">
+        <CheckBoxPreference
+            android:key="settings_checkbox_theme"
+            android:title="@string/preferences_checkbox_theme"
+            android:icon="@drawable/ic_image_palette"
+            android:summary="@string/preferences_checkbox_theme_description"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="settings_checkbox_orientation"
+            android:title="@string/preferences_checkbox_orientation"
+            android:icon="@drawable/ic_device_screen_rotation"
+            android:summary="@string/preferences_checkbox_orientation_description"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="settings_checkbox_transitions"
+            android:icon="@drawable/ic_movie_filter_24px"
+            android:title="@string/preferences_checkbox_transitions"
+            android:summary="@string/preferences_checkbox_transitions_description"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

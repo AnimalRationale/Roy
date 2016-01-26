@@ -1,0 +1,24 @@
+<resources>
+    <string name="preferences_activity_title">Settings</string>
+    <string name="preferences_header_general">General</string>
+
+    <string name="preferences_app_settings_title">Application settings</string>
+    <string name="preferences_checkbox_upload_battery_status">Upload battery status</string>
+    <string name="preferences_checkbox_upload_battery_status_description">Periodically upload this
+        device\'s battery status to your Google Drive
+    </string>
+
+    <string name="preferences_visual_settings_title">Appearance settings</string>
+    <string name="preferences_checkbox_theme">Dark theme</string>
+    <string name="preferences_checkbox_theme_description">Set dark version of device\'s default theme
+    </string>
+
+    <string name="preferences_checkbox_orientation">Screen rotation</string>
+    <string name="preferences_checkbox_orientation_description">Allow changing of screen orientation to landscape
+    </string>
+
+    <string name="preferences_checkbox_transitions">Color effects and animations</string>
+    <string name="preferences_checkbox_transitions_description">Show animations and use colors
+        transitions on timer\'s start/stop button click
+    </string>
+</resources>
