@@ -14,7 +14,6 @@ import android.os.BatteryManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +31,7 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
+import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
 
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         sThemeChangeFlag = isDarkTheme(this);
         setContentView(R.layout.activity_main);
         if (isDarkTheme(this)) {
-            getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.black));
-        } else {getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.white));}
+            getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorBlack));
+        } else {getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite));}
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         int indicatorColor;
         int iconDefaultColor;
         if (batteryLevelValue > 49) {
-            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorLightBlue));
         } else
         if (batteryLevelValue > 25) {
             indicatorColor = argbColor(ContextCompat.getColor(this, R.color.colorWarning));
@@ -123,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
         iconDefaultColor = argbColor(ContextCompat.getColor(this, R.color.colorBatteryLevelProgressBarInitial));
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
-        if (mBatteryIndicatorAnimationCounter == 0) {
+        if (isTransitionsOn(this) && mBatteryIndicatorAnimationCounter == 0) {
             mBatteryIndicatorAnimationCounter = 1;
             batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
-        }
+        } else batteryLevelIndicator.setProgress(batteryLevelValue);
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));

@@ -7,8 +7,8 @@
     <dimen name="battery_level_margin">2dp</dimen>
     <dimen name="battery_level_width">60dp</dimen>
     <dimen name="battery_level_height">60dp</dimen>
-    <item name="battery_level_inner_radius_ratio" type="dimen" format="float">2.2</item>
-    <dimen name="battery_level_thickness">2.5sp</dimen>
+    <item name="battery_level_inner_radius_ratio" type="dimen" format="float">2.6</item>
+    <dimen name="battery_level_thickness">4.0sp</dimen>
 
     <!-- Battery/device status icons margins and paddings. -->
     <dimen name="icon_status_margins">0dp</dimen>
