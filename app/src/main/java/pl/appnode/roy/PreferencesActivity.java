@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import static pl.appnode.roy.Constants.KEY_SETTINGS_ORIENTATION;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_THEME;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
@@ -47,6 +48,9 @@ public class PreferencesActivity extends PreferenceActivity
                                           String key) {
         if (key.equals(KEY_SETTINGS_THEME)) {
             this.recreate();
+        }
+        if (key.equals(KEY_SETTINGS_ORIENTATION)) {
+            orientationSetup(this);
         }
     }
 

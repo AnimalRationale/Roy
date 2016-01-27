@@ -31,6 +31,9 @@ import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
+import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
+import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
+import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGTAG = "MainActivity";
     private int mBatteryIndicatorAnimationCounter;
     private BatteryItem localBattery = new BatteryItem();
+    private static boolean sThemeChangeFlag;
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -49,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        themeSetup(this);
+        sThemeChangeFlag = isDarkTheme(this);
         setContentView(R.layout.activity_main);
+        if (isDarkTheme(this)) {
+            getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.black));
+        } else {getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.white));}
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
@@ -60,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        orientationSetup(this);
+        checkThemeChange();
         mBatteryIndicatorAnimationCounter = 0;
         showBatteryLevel();
         IntentFilter screenStatusIntentFilter = new IntentFilter();
@@ -236,6 +247,16 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void checkThemeChange() { // Restarts activity if user changed theme
+        if (sThemeChangeFlag != isDarkTheme(this)) {
+            finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
 }
