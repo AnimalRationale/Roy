@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         readLocalBatteryStatus();
         int batteryLevelValue = localBattery.batteryLevel;
         int indicatorColor;
+        int indicatorBackgroundColor;
         int iconDefaultColor;
         if (batteryLevelValue > 49) {
             indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorLightBlue));
@@ -120,9 +121,16 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             indicatorColor = argbColor(ContextCompat.getColor(this, R.color.colorAccent));
-        iconDefaultColor = argbColor(ContextCompat.getColor(this, R.color.colorBatteryLevelProgressBarInitial));
+        if (isDarkTheme(this)) {
+            iconDefaultColor = indicatorBackgroundColor = argbColor(ContextCompat
+                    .getColor(this, R.color.colorBatteryLevelProgressBarInitialDark));
+        } else {
+            iconDefaultColor = indicatorBackgroundColor = argbColor(ContextCompat
+                    .getColor(this, R.color.colorBatteryLevelProgressBarInitialLight));
+        }
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
+        batteryLevelIndicator.getBackground().setColorFilter(indicatorBackgroundColor, PorterDuff.Mode.SRC_IN);
         if (isTransitionsOn(this) && mBatteryIndicatorAnimationCounter == 0) {
             mBatteryIndicatorAnimationCounter = 1;
             batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);

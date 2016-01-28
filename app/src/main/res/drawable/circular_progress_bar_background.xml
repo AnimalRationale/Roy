@@ -4,5 +4,5 @@
     android:innerRadiusRatio="@dimen/battery_level_inner_radius_ratio"
     android:shape="ring"
     android:thickness="@dimen/battery_level_thickness" >
-    <solid android:color="@color/colorBatteryLevelProgressBarInitial" />
+    <solid android:color="@color/colorBatteryLevelProgressBarInitialLight" />
 </shape>
