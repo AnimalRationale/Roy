@@ -12,10 +12,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setIcon(R.mipmap.ic_launcher);
         }
         localBattery.batteryDeviceName = getDeviceName();
+        localBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);
     }
 
     @Override
@@ -116,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         int indicatorColor;
         int indicatorBackgroundColor;
         int iconDefaultColor;
+        int textColor;
         if (batteryLevelValue > 49) {
             indicatorColor = argbColor(ContextCompat.getColor(this,R.color.colorLightBlue));
         } else
@@ -127,11 +133,16 @@ public class MainActivity extends AppCompatActivity {
         if (isDarkTheme(this)) {
             iconDefaultColor = indicatorBackgroundColor = argbColor(ContextCompat
                     .getColor(this, R.color.colorBatteryLevelProgressBarInitialDark));
+            textColor = argbColor(ContextCompat
+                    .getColor(this, R.color.colorWhite));
         } else {
             iconDefaultColor = indicatorBackgroundColor = argbColor(ContextCompat
                     .getColor(this, R.color.colorBatteryLevelProgressBarInitialLight));
+            textColor = argbColor(ContextCompat
+                    .getColor(this, R.color.colorBlack));
         }
         TextView deviceName = (TextView) findViewById(R.id.text_battery_level_description);
+        deviceName.setTextColor(textColor);
         deviceName.setText(localBattery.batteryDeviceName);
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
@@ -141,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             batteryLevelIndicatorAnimation(batteryLevelIndicator, batteryLevelValue);
         } else batteryLevelIndicator.setProgress(batteryLevelValue);
         TextView batteryLevel = (TextView) findViewById(R.id.text_battery_level);
+        batteryLevel.setTextColor(textColor);
         batteryLevel.setText(batteryLevelValue
                 + getString(R.string.percent));
         ImageView batteryCharging = (ImageView) findViewById(R.id.icon_battery_charging);
