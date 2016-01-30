@@ -18,6 +18,10 @@
     <string name="battery_charging">Charging</string>
     <string name="battery_discharging">Discharging</string>
 
+    <string name="battery_check_time_current">current</string>
+    <string name="battery_check_time_ago">%s ago</string>
+    <string name="battery_check_time_yesterday">yesterday</string>
+
     <string name="menu_action_settings">Settings</string>
     <string name="menu_action_about">About</string>
 

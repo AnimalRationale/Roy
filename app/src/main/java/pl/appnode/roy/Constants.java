@@ -17,6 +17,12 @@ final class Constants {
     static final int BATTERY_DISCHARGING = 0;
     static final int BATTERY_CHARGING = 1;
 
+    /** Time units in milliseconds, used to determine time from last battery status check */
+    private static final int SECOND_IN_MILLIS = 1000;
+    private static final int MINUTE_IN_MILLIS = 60 * SECOND_IN_MILLIS;
+    private static final int HOUR_IN_MILLIS = 60 * MINUTE_IN_MILLIS;
+    private static final int DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
+
     /** Keys for saving app settings (theme, orientation, colors transitions) and first run check). */
     public static final String KEY_SETTINGS_THEME = "settings_checkbox_theme";
     public static final String KEY_SETTINGS_ORIENTATION = "settings_checkbox_orientation";

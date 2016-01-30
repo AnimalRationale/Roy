@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         localBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);
+        localBattery.batteryCheckTime = System.currentTimeMillis();
     }
 
     @Override
@@ -196,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                  batteryCharge.setText(getString(R.string.not_available));
         }
+    }
+
+    private String batteryStatusCheckTime(BatteryItem batteryItem) {
+        return getString(R.string.not_available);
     }
 
     private void readLocalBatteryStatus() {
