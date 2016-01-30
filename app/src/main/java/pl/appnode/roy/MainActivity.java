@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
@@ -34,6 +35,9 @@ import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
+import static pl.appnode.roy.Constants.DAY_IN_MILLIS;
+import static pl.appnode.roy.Constants.HOUR_IN_MILLIS;
+import static pl.appnode.roy.Constants.MINUTE_IN_MILLIS;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
@@ -197,10 +201,28 @@ public class MainActivity extends AppCompatActivity {
             default:
                  batteryCharge.setText(getString(R.string.not_available));
         }
+        TextView batteryCheckTimeText = (TextView) findViewById(R.id.text_battery_level_check_time);
+        batteryCheckTimeText.setText(batteryStatusCheckTime(localBattery));
     }
 
     private String batteryStatusCheckTime(BatteryItem batteryItem) {
-        return getString(R.string.not_available);
+        long batteryCheckTime = batteryItem.batteryCheckTime;
+        final long now = System.currentTimeMillis();
+        if (batteryCheckTime > now || batteryCheckTime <= 0) return getString(R.string.not_available);
+        final long time_difference = now - batteryCheckTime;
+        if (time_difference < MINUTE_IN_MILLIS)
+            return getString(R.string.battery_check_time_current);
+        else if (time_difference < 50 * MINUTE_IN_MILLIS)
+            return getString(R.string.battery_check_time_ago,
+                    getResources().getQuantityString(R.plurals.minutes, (int) time_difference / MINUTE_IN_MILLIS, time_difference / MINUTE_IN_MILLIS));
+        else if (time_difference < 24 * HOUR_IN_MILLIS)
+            return getString(R.string.battery_check_time_ago,
+                    getResources().getQuantityString(R.plurals.hours, (int) time_difference / HOUR_IN_MILLIS, time_difference / HOUR_IN_MILLIS));
+        else if (time_difference < 48 * HOUR_IN_MILLIS)
+            return getString(R.string.battery_check_time_yesterday);
+        else
+            return getString(R.string.battery_check_time_ago,
+                    getResources().getQuantityString(R.plurals.days, (int) time_difference / DAY_IN_MILLIS, time_difference / DAY_IN_MILLIS));
     }
 
     private void readLocalBatteryStatus() {

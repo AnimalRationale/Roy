@@ -6,7 +6,7 @@ package pl.appnode.roy;
 public class BatteryItem {
     String batteryDeviceId;
     String batteryDeviceName;
-    float batteryCheckTime;
+    long batteryCheckTime;
     int batteryLevel;
     int batteryPluggedStatus;
     int batteryChargingStatus;
