@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
@@ -27,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
@@ -89,6 +91,17 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter screenStatusIntentFilter = new IntentFilter();
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
+        if (isGooglePlayServicesAvailable()) {
+            Log.d(LOGTAG, "Google Play Services available");
+        } else {
+            Log.d(LOGTAG, "Google Play Services NOT available");
+        }
+        if (isConnection()) {
+            Log.d(LOGTAG, "Network connection available");
+        } else {
+            Log.d(LOGTAG, "Network connection NOT available");
+        }
+
     }
 
     @Override
@@ -329,6 +342,17 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    private boolean isGooglePlayServicesAvailable() {
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        final int connectionStatusCode = googleAPI.isGooglePlayServicesAvailable(this);
+        Log.d(LOGTAG, "GPSA status: " + connectionStatusCode + " - expected: " + ConnectionResult.SUCCESS);
+        if (connectionStatusCode != ConnectionResult.SUCCESS ) {
+            return false;
+        }
+        return true;
+    }
+
 
     private void checkThemeChange() { // Restarts activity if user changed theme
         if (sThemeChangeFlag != isDarkTheme(this)) {
