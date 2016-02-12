@@ -1,11 +1,13 @@
 package pl.appnode.roy;
 
+import android.accounts.AccountManager;
 import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
@@ -29,6 +31,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.drive.DriveScopes;
+
+import java.util.Arrays;
 
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
@@ -40,6 +47,10 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 import static pl.appnode.roy.Constants.DAY_IN_MILLIS;
 import static pl.appnode.roy.Constants.HOUR_IN_MILLIS;
 import static pl.appnode.roy.Constants.MINUTE_IN_MILLIS;
+import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
+import static pl.appnode.roy.Constants.REQUEST_ACCOUNT_PICKER;
+import static pl.appnode.roy.Constants.REQUEST_AUTHORIZATION;
+import static pl.appnode.roy.Constants.REQUEST_GOOGLE_PLAY_SERVICES;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
@@ -49,9 +60,13 @@ import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "MainActivity";
+    private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY };
+
     private int mBatteryIndicatorAnimationCounter;
     private BatteryItem localBattery = new BatteryItem();
     private static boolean sThemeChangeFlag;
+    GoogleAccountCredential mCredential;
+
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -79,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
                 Settings.Secure.ANDROID_ID);
         Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);
         localBattery.batteryCheckTime = System.currentTimeMillis();
+        // Initialize credentials and service object.
+        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff())
+                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
     }
 
     @Override
@@ -102,6 +123,47 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOGTAG, "Network connection NOT available");
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case REQUEST_GOOGLE_PLAY_SERVICES:
+                if (resultCode != RESULT_OK) {
+                    isGooglePlayServicesAvailable();
+                }
+                break;
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null &&
+                        data.getExtras() != null) {
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        mCredential.setSelectedAccountName(accountName);
+                        SharedPreferences settings =
+                                getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Log.d(LOGTAG, "Account unspecified.");
+                }
+                break;
+            case REQUEST_AUTHORIZATION:
+                if (resultCode != RESULT_OK) {
+                    chooseAccount();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void chooseAccount() {
+        startActivityForResult(
+                mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
     }
 
     @Override
