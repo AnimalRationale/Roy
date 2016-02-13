@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
         if (isGooglePlayServicesAvailable()) {
             Log.d(LOGTAG, "Google Play Services available");
+            refreshResults();
         } else {
             Log.d(LOGTAG, "Google Play Services NOT available");
         }
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
+                        Log.d(LOGTAG, "Account name: " + accountName);
                     }
                 } else if (resultCode == RESULT_CANCELED) {
                     Log.d(LOGTAG, "Account unspecified.");
@@ -160,6 +162,24 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    /**
+     * Attempt to get a set of data from the Drive API to display. If the
+     * email address isn't known yet, then call chooseAccount() method so the
+     * user can pick an account.
+     */
+    private void refreshResults() {
+        if (mCredential.getSelectedAccountName() == null) {
+            chooseAccount();
+        } else {
+            if (isConnection()) {
+                Log.d(LOGTAG, "Ready to connect.");
+            } else {
+                Log.d(LOGTAG, "No internet connection.");
+            }
+        }
+    }
+
 
     private void chooseAccount() {
         startActivityForResult(
