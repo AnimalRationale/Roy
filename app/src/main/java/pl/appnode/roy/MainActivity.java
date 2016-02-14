@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
         if (isGooglePlayServicesAvailable()) {
             Log.d(LOGTAG, "Google Play Services available");
-            refreshResults();
+            // connectToDrive();
         } else {
             Log.d(LOGTAG, "Google Play Services NOT available");
         }
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
      * email address isn't known yet, then call chooseAccount() method so the
      * user can pick an account.
      */
-    private void refreshResults() {
+    private void connectToDrive() {
         if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else {
@@ -201,6 +201,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if (id == R.id.action_gdrive) {
+            connectToDrive();
+        }
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, PreferencesActivity.class);
             this.startActivity(settingsIntent);
