@@ -112,12 +112,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter screenStatusIntentFilter = new IntentFilter();
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
-        if (isGooglePlayServicesAvailable()) {
-            Log.d(LOGTAG, "Google Play Services available");
-            // connectToDrive();
-        } else {
-            Log.d(LOGTAG, "Google Play Services NOT available");
-        }
         if (isConnection()) {
             Log.d(LOGTAG, "Network connection available");
         } else {
@@ -202,7 +196,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_gdrive) {
-            connectToDrive();
+            if (isGooglePlayServicesAvailable()) {
+                Log.d(LOGTAG, "Google Play Services available");
+                connectToDrive();
+            } else {
+                Log.d(LOGTAG, "Google Play Services NOT available");
+            }
         }
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, PreferencesActivity.class);
