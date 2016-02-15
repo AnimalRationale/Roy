@@ -62,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGTAG = "MainActivity";
     private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY };
 
-    private int mBatteryIndicatorAnimationCounter;
-    private BatteryItem localBattery = new BatteryItem();
-    private static boolean sThemeChangeFlag;
+    int mBatteryIndicatorAnimationCounter;
+    BatteryItem localBattery = new BatteryItem();
+    static boolean sThemeChangeFlag;
     GoogleAccountCredential mCredential;
+    Menu mMenu;
 
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
@@ -112,12 +113,7 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter screenStatusIntentFilter = new IntentFilter();
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
-        if (isConnection()) {
-            Log.d(LOGTAG, "Network connection available");
-        } else {
-            Log.d(LOGTAG, "Network connection NOT available");
-        }
-
+        setMenuCloudIcon();
     }
 
     @Override
@@ -189,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mMenu = menu;
         return true;
     }
 
@@ -437,6 +434,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void setMenuCloudIcon() {
+        if (mMenu != null) {
+            MenuItem cloudIcon = mMenu.findItem(R.id.action_gdrive);
+            if (mCredential.getSelectedAccountName() != null) {
+                if (isConnection()) {
+                    cloudIcon.setIcon(R.drawable.ic_cloud_queue_white_24dp);
+                    Log.d(LOGTAG, "Ready to connect.");
+                } else {
+                    cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
+                    Log.d(LOGTAG, "No internet connection.");
+                }
+            }
+        }
+    }
 
     private void checkThemeChange() { // Restarts activity if user changed theme
         if (sThemeChangeFlag != isDarkTheme(this)) {
