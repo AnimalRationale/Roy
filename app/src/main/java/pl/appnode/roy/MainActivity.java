@@ -138,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
+                        String info = getString(R.string.logged_to_account) + " " + accountName;
+                        Toast toast = Toast.makeText(this, info, Toast.LENGTH_SHORT);
+                        toast.show();
                         Log.d(LOGTAG, "Account name: " + accountName);
                     }
                 } else if (resultCode == RESULT_CANCELED) {
