@@ -3,12 +3,16 @@ package pl.appnode.roy;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
 
 /**
  * Shows information dialog with application's launcher icon, name, version and code version
@@ -17,6 +21,8 @@ class AboutDialog {
 
     private static String sVersionName;
     private static String sVersionCode;
+    private static String sSavedAccountName;
+    private static String sCredentialsAccountName;
 
     private static void versionInfo(Context context) {
         try {
@@ -31,13 +37,28 @@ class AboutDialog {
         }
     }
 
+    private static void accountNameSavedInPreferences(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        sSavedAccountName = settings.getString(PREF_ACCOUNT_NAME, null);
+    }
+
+    private static void accountNameInCredentials() {
+        sCredentialsAccountName = MainActivity.getCredentialsAccountName();
+    }
+
     public static void showDialog(Activity callingActivity) {
         versionInfo(callingActivity);
+        accountNameSavedInPreferences(callingActivity);
+        accountNameInCredentials();
         String aboutVersion = sVersionName + "." + sVersionCode;
         LayoutInflater layoutInflater = LayoutInflater.from(callingActivity);
         View aboutDialog = layoutInflater.inflate(R.layout.dialog_about, null) ;
         TextView textAbout = (TextView) aboutDialog.findViewById(R.id.aboutDialogInfo);
         textAbout.setText(aboutVersion);
+        TextView textSavedAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogSavedAccountName);
+        textSavedAccountName.setText(sSavedAccountName);
+        TextView textCredentialsAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogCredentialsAccountName);
+        textCredentialsAccountName.setText(sCredentialsAccountName);
         new AlertDialog.Builder(callingActivity)
                 .setTitle(callingActivity.getResources().getString(R.string.dialog_about_title)
                         + callingActivity.getString(R.string.app_name))

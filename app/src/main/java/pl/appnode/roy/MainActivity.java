@@ -65,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
     int mBatteryIndicatorAnimationCounter;
     BatteryItem localBattery = new BatteryItem();
     static boolean sThemeChangeFlag;
-    GoogleAccountCredential mCredential;
+    static GoogleAccountCredential mCredential;
     Menu mMenu;
 
+    public static String getCredentialsAccountName() {
+        return mCredential.getSelectedAccountName();
+    }
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -189,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         mMenu = menu;
+        setMenuCloudIcon();
         return true;
     }
 
