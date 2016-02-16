@@ -37,8 +37,8 @@ class AboutDialog {
         }
     }
 
-    private static void accountNameSavedInPreferences(Context context) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+    private static void accountNameSavedInPreferences(Activity context) {
+        SharedPreferences settings = context.getPreferences(Context.MODE_PRIVATE);
         sSavedAccountName = settings.getString(PREF_ACCOUNT_NAME, null);
     }
 
