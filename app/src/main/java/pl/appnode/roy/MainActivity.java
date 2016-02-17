@@ -168,6 +168,12 @@ public class MainActivity extends AppCompatActivity {
         if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else {
+            mCredential.setSelectedAccountName(null);
+            SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(PREF_ACCOUNT_NAME, null);
+            editor.apply();
+            setMenuCloudIcon();
             if (isConnection()) {
                 Log.d(LOGTAG, "Ready to connect.");
             } else {
@@ -452,6 +458,9 @@ public class MainActivity extends AppCompatActivity {
                     cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
                     Log.d(LOGTAG, "No internet connection.");
                 }
+            } else {
+                cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
+                Log.d(LOGTAG, "Logging off.");
             }
         }
     }
