@@ -35,6 +35,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -110,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 Settings.Secure.ANDROID_ID);
         Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);
         localBattery.batteryCheckTime = System.currentTimeMillis();
+        mProgress = new ProgressDialog(this);
+        mProgress.setMessage("Calling Drive API ...");
         // Initialize credentials and service object.
         SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -472,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.drive.Drive.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Drive API Android Quickstart")
+                    .setApplicationName("Roy")
                     .build();
         }
 
@@ -484,9 +487,9 @@ public class MainActivity extends AppCompatActivity {
         protected List<String> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
-            } catch (Exception e) {
-                mLastError = e;
-                cancel(true);
+            } catch (UserRecoverableAuthIOException userRecoverableException) {
+                Log.d(LOGTAG, "Exception with intent " + userRecoverableException);
+                startActivityForResult(userRecoverableException.getIntent(), REQUEST_AUTHORIZATION);
                 return null;
             }
         }
@@ -497,19 +500,26 @@ public class MainActivity extends AppCompatActivity {
          *         found.
          * @throws IOException
          */
-        private List<String> getDataFromApi() throws IOException {
+        private List<String> getDataFromApi() throws UserRecoverableAuthIOException {
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
-            FileList result = mService.files().list()
-                    .setPageSize(10)
-                    .setFields("nextPageToken, items(id, name)")
-                    .execute();
-            List<File> files = result.getFiles();
-            if (files != null) {
-                for (File file : files) {
-                    fileInfo.add(String.format("%s (%s)\n",
-                            file.getName(), file.getId()));
+            try {
+                FileList result = mService.files().list()
+                        .setPageSize(10)
+                        .setFields("nextPageToken, items(id, name)")
+                        .execute();
+                List<File> files = result.getFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        fileInfo.add(String.format("%s (%s)\n",
+                                file.getName(), file.getId()));
+                    }
                 }
+            } catch (Exception e) {
+                Log.d(LOGTAG, "Exception getDataFromApi " + e);
+                mLastError = e;
+                cancel(true);
+                return null;
             }
             return fileInfo;
         }
@@ -535,13 +545,16 @@ public class MainActivity extends AppCompatActivity {
         protected void onCancelled() {
             mProgress.hide();
             if (mLastError != null) {
-                Log.d(LOGTAG, "Error occurred: " + mLastError.getMessage());
+                Log.d(LOGTAG, "Cancel, error occurred: " + mLastError.getMessage());
+                if (mLastError instanceof UserRecoverableAuthIOException) {
+                    startActivityForResult(((UserRecoverableAuthIOException) mLastError)
+                            .getIntent(), REQUEST_AUTHORIZATION);
+                }
             } else {
                 Log.d(LOGTAG, "Request cancelled.");
             }
         }
     }
-
 
     private void setMenuCloudIcon() {
         if (mMenu != null) {
