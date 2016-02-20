@@ -487,9 +487,10 @@ public class MainActivity extends AppCompatActivity {
         protected List<String> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
-            } catch (UserRecoverableAuthIOException userRecoverableException) {
-                Log.d(LOGTAG, "Exception with intent " + userRecoverableException);
-                startActivityForResult(userRecoverableException.getIntent(), REQUEST_AUTHORIZATION);
+            } catch (Exception e) {
+                Log.d(LOGTAG, "Exception getDataFromApi " + e);
+                mLastError = e;
+                cancel(true);
                 return null;
             }
         }
@@ -500,10 +501,9 @@ public class MainActivity extends AppCompatActivity {
          *         found.
          * @throws IOException
          */
-        private List<String> getDataFromApi() throws UserRecoverableAuthIOException {
+        private List<String> getDataFromApi() throws IOException {
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
-            try {
                 FileList result = mService.files().list()
                         .setPageSize(10)
                         .setFields("nextPageToken, items(id, name)")
@@ -515,12 +515,6 @@ public class MainActivity extends AppCompatActivity {
                                 file.getName(), file.getId()));
                     }
                 }
-            } catch (Exception e) {
-                Log.d(LOGTAG, "Exception getDataFromApi " + e);
-                mLastError = e;
-                cancel(true);
-                return null;
-            }
             return fileInfo;
         }
 
