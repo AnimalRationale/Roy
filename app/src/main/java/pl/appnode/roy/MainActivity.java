@@ -16,10 +16,11 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
         setMenuCloudIcon();
+        showAccountName();
     }
 
     @Override
@@ -565,6 +567,17 @@ public class MainActivity extends AppCompatActivity {
                 cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
                 Log.d(LOGTAG, "Logging off.");
             }
+        }
+    }
+
+    private void showAccountName() {
+        View snackView;
+        String hintText;
+        snackView = findViewById(R.id.main);
+        hintText = "Signed in: " + mCredential.getSelectedAccountName();
+        if (snackView != null) {
+            Snackbar.make(snackView, hintText, 2000)
+                    .show();
         }
     }
 
