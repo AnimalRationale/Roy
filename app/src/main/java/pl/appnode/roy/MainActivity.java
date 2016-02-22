@@ -572,8 +572,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Shows snackbar with currently used account name
+     */
     private void showAccountName() {
-        if (mShowAccountInfoSnackbar) {
+        if (sCredential.getSelectedAccountName() != null && mShowAccountInfoSnackbar) {
             View snackView;
             String hintText;
             snackView = findViewById(R.id.main);
