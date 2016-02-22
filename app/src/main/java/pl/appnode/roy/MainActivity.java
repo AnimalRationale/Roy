@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static pl.appnode.roy.Constants.ACCOUNT_HINT_TIME;
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
 import static pl.appnode.roy.Constants.BATTERY_DISCHARGING;
@@ -76,14 +77,15 @@ public class MainActivity extends AppCompatActivity {
     private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY };
 
     int mBatteryIndicatorAnimationCounter;
+    boolean mShowAccountInfoSnackbar = true;
     BatteryItem localBattery = new BatteryItem();
     static boolean sThemeChangeFlag;
-    static GoogleAccountCredential mCredential;
+    static GoogleAccountCredential sCredential;
     ProgressDialog mProgress;
     Menu mMenu;
 
     public static String getCredentialsAccountName() {
-        return mCredential.getSelectedAccountName();
+        return sCredential.getSelectedAccountName();
     }
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         mProgress.setMessage("Calling Drive API ...");
         // Initialize credentials and service object.
         SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-        mCredential = GoogleAccountCredential.usingOAuth2(
+        sCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
-                        mCredential.setSelectedAccountName(accountName);
+                        sCredential.setSelectedAccountName(accountName);
                         SharedPreferences settings =
                                 getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
@@ -182,10 +184,10 @@ public class MainActivity extends AppCompatActivity {
      * user can pick an account.
      */
     private void connectToDrive() {
-        if (mCredential.getSelectedAccountName() == null) {
+        if (sCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else {
-            mCredential.setSelectedAccountName(null);
+            sCredential.setSelectedAccountName(null);
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, null);
@@ -202,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void chooseAccount() {
         startActivityForResult(
-                mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+                sCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
     }
 
     @Override
@@ -241,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showBatteryLevelButton(View button) {
-        new MakeRequestTask(mCredential).execute();
+        new MakeRequestTask(sCredential).execute();
     }
 
     public void showBatteryLevel() {
@@ -555,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
     private void setMenuCloudIcon() {
         if (mMenu != null) {
             MenuItem cloudIcon = mMenu.findItem(R.id.action_gdrive);
-            if (mCredential.getSelectedAccountName() != null) {
+            if (sCredential.getSelectedAccountName() != null) {
                 if (isConnection()) {
                     cloudIcon.setIcon(R.drawable.ic_cloud_queue_white_24dp);
                     Log.d(LOGTAG, "Ready to connect.");
@@ -571,13 +573,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAccountName() {
-        View snackView;
-        String hintText;
-        snackView = findViewById(R.id.main);
-        hintText = "Signed in: " + mCredential.getSelectedAccountName();
-        if (snackView != null) {
-            Snackbar.make(snackView, hintText, 2000)
-                    .show();
+        if (mShowAccountInfoSnackbar) {
+            View snackView;
+            String hintText;
+            snackView = findViewById(R.id.main);
+            hintText = getString(R.string.logged_to_account) + " " + sCredential.getSelectedAccountName();
+            if (snackView != null) {
+                Snackbar.make(snackView, hintText, ACCOUNT_HINT_TIME)
+                        .show();
+            }
         }
     }
 

@@ -37,4 +37,7 @@ final class Constants {
     public static final int REQUEST_AUTHORIZATION = 1001;
     public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
 
+    /** Current account snackbar info display time in milliseconds*/
+    public static final int ACCOUNT_HINT_TIME = 2000;
+
 }
