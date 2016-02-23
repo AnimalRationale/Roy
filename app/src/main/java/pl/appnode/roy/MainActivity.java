@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);
         localBattery.batteryCheckTime = System.currentTimeMillis();
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Drive API ...");
+        mProgress.setMessage(getString(R.string.calling_drive_api));
         // Initialize credentials and service object.
         SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
         sCredential = GoogleAccountCredential.usingOAuth2(
@@ -160,9 +160,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
-                        String info = getString(R.string.logged_to_account) + " " + accountName;
-                        Toast toast = Toast.makeText(this, info, Toast.LENGTH_SHORT);
-                        toast.show();
+                        showAccountName();
                         Log.d(LOGTAG, "Account name: " + accountName);
                     }
                 } else if (resultCode == RESULT_CANCELED) {
