@@ -62,7 +62,7 @@ class AboutDialog {
         new AlertDialog.Builder(callingActivity)
                 .setTitle(callingActivity.getResources().getString(R.string.dialog_about_title)
                         + callingActivity.getString(R.string.app_name))
-                .setIcon(-1).setIcon(ContextCompat.getDrawable(callingActivity, R.mipmap.ic_launcher))
+                .setIcon(ContextCompat.getDrawable(callingActivity, R.mipmap.ic_launcher))
                 .setCancelable(true)
                 .setPositiveButton(callingActivity.getResources().getString(R.string.dialog_about_ok), null)
                 .setView(aboutDialog)
