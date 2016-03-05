@@ -2,11 +2,15 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryMaterial">#FF008080</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWarning">#FFAA00</color>
     <color name="colorBlack">#FF000000</color>
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorLightBlue">#FF0288D1</color>
+    <color name="colorDarkGrey">#FF444444</color>
+    <color name="colorLightGrey">#FFEFEFEF</color>
+    <color name="colorGrey">#FF949494</color>
     <color name="colorBatteryLevelProgressBarInitialLight">#FFF4F4F4</color>
     <color name="colorBatteryLevelProgressBarInitialDark">#FF404040</color>
 </resources>

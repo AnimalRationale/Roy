@@ -25,15 +25,9 @@ public class PreferencesSetupHelper {
      */
     public static void themeSetup(Context context) {
         if (isDarkTheme(context)) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                context.setTheme(android.R.style.Theme_Holo);
-            } else {
-                context.setTheme(android.R.style.Theme_Material);
-            }
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            context.setTheme(android.R.style.Theme_Holo_Light);
+            context.setTheme(R.style.AppThemeDark);
         } else {
-            context.setTheme(android.R.style.Theme_Material_Light);
+            context.setTheme(R.style.AppTheme);
         }
     }
 

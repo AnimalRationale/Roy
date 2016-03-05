@@ -2,7 +2,6 @@ package pl.appnode.roy;
 
 import android.accounts.AccountManager;
 import android.animation.ObjectAnimator;
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +19,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         if (isDarkTheme(this)) {
             getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorBlack));
         } else {getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite));}
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher);
