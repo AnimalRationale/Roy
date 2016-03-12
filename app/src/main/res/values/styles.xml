@@ -11,7 +11,8 @@
     <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:alertDialogTheme">@style/dialog</item>
+        <item name="alertDialogTheme">@style/dialog</item>
+        <!--<item name="android:buttonStyle">@style/button</item>-->
         <item name="android:windowBackground">@color/colorBlack</item>
         <item name="android:itemBackground">@color/colorDarkGrey</item>
         <item name="android:textColor">@color/colorLightGrey</item>
@@ -20,6 +21,12 @@
 
     <style name="dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/colorDarkGrey</item>
+    </style>
+
+    <style name="button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorDarkGrey</item>
+        <item name="android:colorButtonNormal">@color/colorDarkGrey</item>
+        <item name="android:textColor">@color/colorLightGrey</item>
     </style>
 
 </resources>
