@@ -31,4 +31,5 @@ dependencies {
     compile('com.google.apis:google-api-services-drive:v3-rev6-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    compile 'com.firebase:firebase-client-android:2.5.2'
 }
