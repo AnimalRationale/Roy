@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -79,10 +80,11 @@ public class MainActivity extends AppCompatActivity {
     int mBatteryIndicatorAnimationCounter;
     boolean mShowAccountInfoSnackbar = true;
     BatteryItem localBattery = new BatteryItem();
-    static boolean sThemeChangeFlag;
-    static GoogleAccountCredential sCredential;
     ProgressDialog mProgress;
     Menu mMenu;
+    Firebase mFireRef;
+    static boolean sThemeChangeFlag;
+    static GoogleAccountCredential sCredential;
 
     public static String getCredentialsAccountName() {
         return sCredential.getSelectedAccountName();
@@ -109,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher);
         }
+        // Initialise Firebase client and set reference to database
+        Firebase.setAndroidContext(this);
+        mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
         localBattery.batteryDeviceName = getDeviceName();
         localBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         localBattery.batteryCheckTime = System.currentTimeMillis();
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.calling_drive_api));
-        // Initialize credentials and service object.
+        // Initialise credentials and service object.
         SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
         sCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
@@ -241,7 +246,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showBatteryLevelButton(View button) {
-        new MakeRequestTask(sCredential).execute();
+//        new MakeRequestTask(sCredential).execute();
+        Firebase localBatteryRef = mFireRef.child("devices").child(localBattery.batteryDeviceId);
+        localBatteryRef.setValue(localBattery);
     }
 
     public void showBatteryLevel() {
@@ -595,5 +602,4 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }
