@@ -124,11 +124,11 @@
         android:text="@string/not_available" />
     <Button
         android:theme="@style/button"
-        android:id="@+id/button_battery_check"
+        android:id="@+id/button_battery_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_check_battery"
+        android:text="@string/button_upload_local_battery_status"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/text_battery_level_check_time"
-        android:onClick="showBatteryLevelButton"/>
+        android:onClick="uploadBatteryStatusButton"/>
 </RelativeLayout>

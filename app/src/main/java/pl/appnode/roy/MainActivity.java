@@ -32,7 +32,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -111,9 +114,19 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher);
         }
-        // Initialise Firebase client and set reference to database
+        // Initialise Firebase client, set reference to database, and data change listener
         Firebase.setAndroidContext(this);
         mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
+        mFireRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.d(LOGTAG, "Data: "+ snapshot.getValue());
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.d(LOGTAG, "The read failed: " + firebaseError.getMessage());
+            }
+        });
         localBattery.batteryDeviceName = getDeviceName();
         localBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -245,10 +258,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showBatteryLevelButton(View button) {
-//        new MakeRequestTask(sCredential).execute();
+    public void uploadBatteryStatusButton(View button) {
         Firebase localBatteryRef = mFireRef.child("devices").child(localBattery.batteryDeviceId);
         localBatteryRef.setValue(localBattery);
+    }
+
+    public void checkBatteries() {
+
     }
 
     public void showBatteryLevel() {
