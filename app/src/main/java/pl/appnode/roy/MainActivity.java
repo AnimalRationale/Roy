@@ -117,10 +117,16 @@ public class MainActivity extends AppCompatActivity {
         // Initialise Firebase client, set reference to database, and data change listener
         Firebase.setAndroidContext(this);
         mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
-        mFireRef.addValueEventListener(new ValueEventListener() {
+        mFireRef.child("devices").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d(LOGTAG, "Data: "+ snapshot.getValue());
+                Log.d(LOGTAG, "There are " + snapshot.getChildrenCount() + " entries");
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
+                    Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
+                    Log.d(LOGTAG, "--- battery level: " + batteryItem.batteryLevel + "%");
+                }
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {
