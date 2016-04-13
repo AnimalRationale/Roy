@@ -131,4 +131,19 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/text_battery_level_check_time"
         android:onClick="uploadBatteryStatusButton"/>
+    <ScrollView
+        android:id="@+id/text_remote_data_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_battery_upload"
+        android:layout_marginTop="15dp"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
+        <TextView
+            android:id="@+id/text_remote_data"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/not_available"
+            />
+    </ScrollView>
 </RelativeLayout>

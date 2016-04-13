@@ -122,10 +122,16 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d(LOGTAG, "Data: "+ snapshot.getValue());
                 Log.d(LOGTAG, "There are " + snapshot.getChildrenCount() + " entries");
+                TextView remoteBatteriesData = (TextView) findViewById(R.id.text_remote_data);
+                remoteBatteriesData.setText("");
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
+                    String remoteList = remoteBatteriesData.getText().toString();
+                    remoteList = remoteList + "\n" + batteryItem.getBatteryDeviceName();
+                    remoteList = remoteList + " - battery level: " + batteryItem.getBatteryLevel() + "%";
+                    remoteBatteriesData.setText(remoteList);
                     Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
-                    Log.d(LOGTAG, "--- battery level: " + batteryItem.batteryLevel + "%");
+                    Log.d(LOGTAG, "--- battery level: " + batteryItem.getBatteryLevel() + "%");
                 }
             }
             @Override
