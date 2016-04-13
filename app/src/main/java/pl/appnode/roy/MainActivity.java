@@ -123,12 +123,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOGTAG, "Data: "+ snapshot.getValue());
                 Log.d(LOGTAG, "There are " + snapshot.getChildrenCount() + " entries");
                 TextView remoteBatteriesData = (TextView) findViewById(R.id.text_remote_data);
+                int i = 0;
                 remoteBatteriesData.setText("");
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    i++;
                     BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
                     String remoteList = remoteBatteriesData.getText().toString();
-                    remoteList = remoteList + "\n" + batteryItem.getBatteryDeviceName();
-                    remoteList = remoteList + " - battery level: " + batteryItem.getBatteryLevel() + "%";
+                    if (i != 1) {remoteList = remoteList + "\n\n";}
+                    remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                    remoteList = remoteList + " - " + batteryItem.getBatteryLevel() + "%"
+                            + " checked " + batteryStatusCheckTime(batteryItem);
                     remoteBatteriesData.setText(remoteList);
                     Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
                     Log.d(LOGTAG, "--- battery level: " + batteryItem.getBatteryLevel() + "%");

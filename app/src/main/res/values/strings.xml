@@ -18,7 +18,7 @@
     <string name="battery_charging">Charging</string>
     <string name="battery_discharging">Discharging</string>
 
-    <string name="battery_check_time_current">current</string>
+    <string name="battery_check_time_current">now</string>
     <string name="battery_check_time_ago">%s ago</string>
     <string name="battery_check_time_yesterday">yesterday</string>
 
