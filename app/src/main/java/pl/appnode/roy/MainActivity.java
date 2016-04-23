@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     int mBatteryIndicatorAnimationCounter;
     boolean mShowAccountInfoSnackbar = true;
-    BatteryItem localBattery = new BatteryItem();
+    BatteryItem mLocalBattery = new BatteryItem();
     ProgressDialog mProgress;
     Menu mMenu;
     Firebase mFireRef;
@@ -143,11 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOGTAG, "The read failed: " + firebaseError.getMessage());
             }
         });
-        localBattery.batteryDeviceName = getDeviceName();
-        localBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);
-        localBattery.batteryCheckTime = System.currentTimeMillis();
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.calling_drive_api));
         // Initialise credentials and service object.
@@ -275,8 +270,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void uploadBatteryStatusButton(View button) {
-        Firebase localBatteryRef = mFireRef.child("devices").child(localBattery.batteryDeviceId);
-        localBatteryRef.setValue(localBattery);
+        Firebase localBatteryRef = mFireRef.child("devices").child(mLocalBattery.batteryDeviceId);
+        localBatteryRef.setValue(mLocalBattery);
     }
 
     public void checkBatteries() {
@@ -285,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showBatteryLevel() {
         readLocalBatteryStatus();
-        int batteryLevelValue = localBattery.batteryLevel;
+        int batteryLevelValue = mLocalBattery.batteryLevel;
         int indicatorColor;
         int indicatorBackgroundColor;
         int iconDefaultColor;
@@ -311,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView deviceName = (TextView) findViewById(R.id.text_battery_level_description);
         deviceName.setTextColor(textColor);
-        deviceName.setText(localBattery.batteryDeviceName);
+        deviceName.setText(mLocalBattery.batteryDeviceName);
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
         batteryLevelIndicator.getBackground().setColorFilter(indicatorBackgroundColor, PorterDuff.Mode.SRC_IN);
@@ -332,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView batteryPluggedUSB = (ImageView) findViewById(R.id.icon_plugged_usb);
         batteryPluggedUSB.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
         TextView batteryPlugged = (TextView) findViewById(R.id.text_battery_plugged);
-        switch (localBattery.batteryPluggedStatus) {
+        switch (mLocalBattery.batteryPluggedStatus) {
             case BATTERY_PLUGGED_AC:
                 batteryPlugged.setText(getString(R.string.battery_plugged_ac));
                 batteryPluggedPower.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
@@ -352,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
                 batteryPlugged.setText(getString(R.string.battery_not_plugged));
         }
         TextView batteryCharge = (TextView) findViewById(R.id.text_battery_charge_status);
-        switch (localBattery.batteryChargingStatus) {
+        switch (mLocalBattery.batteryChargingStatus) {
             case BATTERY_CHARGING:
                 batteryCharge.setText(getString(R.string.battery_charging));
                 batteryCharging.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
@@ -365,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                  batteryCharge.setText(getString(R.string.not_available));
         }
         TextView batteryCheckTimeText = (TextView) findViewById(R.id.text_battery_level_check_time);
-        batteryCheckTimeText.setText(batteryStatusCheckTime(localBattery));
+        batteryCheckTimeText.setText(batteryStatusCheckTime(mLocalBattery));
     }
 
     private String batteryStatusCheckTime(BatteryItem batteryItem) {
@@ -389,13 +384,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readLocalBatteryStatus() {
+        mLocalBattery.batteryDeviceName = getDeviceName();
+        mLocalBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.d(LOGTAG, "Device ID: " + mLocalBattery.batteryDeviceId);
+        mLocalBattery.batteryCheckTime = System.currentTimeMillis();
         Intent getBattery = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         // Reads battery level data
         int level = getBattery.getIntExtra(BatteryManager.EXTRA_LEVEL, BATTERY_CHECK_ERROR);
         int scale = getBattery.getIntExtra(BatteryManager.EXTRA_SCALE, BATTERY_CHECK_ERROR);
         if (level == BATTERY_CHECK_ERROR || scale == BATTERY_CHECK_ERROR) {
-            localBattery.batteryLevel = BATTERY_CHECK_ERROR;
-        } else localBattery.batteryLevel = (int)((level / (float)scale) * 100);
+            mLocalBattery.batteryLevel = BATTERY_CHECK_ERROR;
+        } else mLocalBattery.batteryLevel = (int)((level / (float)scale) * 100);
         // Checks if device is plugged
         int pluggedStatus = getBattery.getIntExtra(BatteryManager.EXTRA_PLUGGED, BATTERY_CHECK_ERROR);
         int batteryPluggedStatus;
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 batteryPluggedStatus = BATTERY_NOT_PLUGGED;
         }
-        localBattery.batteryPluggedStatus =  batteryPluggedStatus;
+        mLocalBattery.batteryPluggedStatus =  batteryPluggedStatus;
         // Checks if battery is charging/discharging
         int chargingStatus = getBattery.getIntExtra(BatteryManager.EXTRA_STATUS, BATTERY_CHECK_ERROR);
         int batteryChargeStatus;
@@ -429,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 batteryChargeStatus = BATTERY_CHECK_ERROR;
         }
-        localBattery.batteryChargingStatus = batteryChargeStatus;
+        mLocalBattery.batteryChargingStatus = batteryChargeStatus;
     }
 
     private void batteryLevelIndicatorAnimation(final ProgressBar progressBar, int batteryLevel) {
