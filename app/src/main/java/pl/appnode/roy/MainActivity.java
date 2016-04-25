@@ -274,10 +274,6 @@ public class MainActivity extends AppCompatActivity {
         localBatteryRef.setValue(mLocalBattery);
     }
 
-    public void checkBatteries() {
-
-    }
-
     public void showBatteryLevel() {
         readLocalBatteryStatus();
         int batteryLevelValue = mLocalBattery.batteryLevel;
