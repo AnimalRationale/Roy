@@ -40,4 +40,9 @@ final class Constants {
     /** Current account snackbar info display time in milliseconds*/
     public static final int ACCOUNT_HINT_TIME = 2000;
 
+    /** Commands for setting up and canceling wake up alarms for uploading local battery status */
+    public static final int CANCEL_WAKE_UP_ALARM = 0;
+    public static final int SET_WAKE_UP_ALARM = 1;
+    public static final String ACTION_BATTERY_UPLOAD = "BATTERY_UPLOAD";
+
 }
