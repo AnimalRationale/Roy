@@ -43,6 +43,6 @@ final class Constants {
     /** Commands for setting up and canceling wake up alarms for uploading local battery status */
     public static final int CANCEL_WAKE_UP_ALARM = 0;
     public static final int SET_WAKE_UP_ALARM = 1;
-    public static final String ACTION_BATTERY_UPLOAD = "BATTERY_UPLOAD";
+    public static final String ACTION_BATTERY_STATUS_UPLOAD = "BATTERY_STATUS_UPLOAD";
 
 }

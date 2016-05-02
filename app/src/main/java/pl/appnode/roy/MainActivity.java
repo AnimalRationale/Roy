@@ -69,6 +69,7 @@ import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
 import static pl.appnode.roy.Constants.REQUEST_ACCOUNT_PICKER;
 import static pl.appnode.roy.Constants.REQUEST_AUTHORIZATION;
 import static pl.appnode.roy.Constants.REQUEST_GOOGLE_PLAY_SERVICES;
+import static pl.appnode.roy.Constants.SET_WAKE_UP_ALARM;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
+        WakeUpAlarmHelper.alarmManager(30000L, SET_WAKE_UP_ALARM);
     }
 
     @Override
