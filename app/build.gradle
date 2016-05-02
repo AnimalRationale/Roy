@@ -8,8 +8,8 @@ android {
         applicationId "pl.appnode.roy"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 24
-        versionName "0.0.7"
+        versionCode 25
+        versionName "0.0.8"
     }
     buildTypes {
         all {

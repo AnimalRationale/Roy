@@ -19,7 +19,7 @@ public class WakeUpAlarmHelper {
 
     private static final String LOGTAG = "WakeUpAlarmHelper";
 
-    public static void alarmManager(Long uploadRepeatTime, int command) {
+    public static void alarmManager(int uploadRepeatTime, int command) {
         Intent alarmIntent = new Intent(AppContextHelper.getContext(), WakeUpAlarmReceiver.class);
         alarmIntent.setAction(ACTION_BATTERY_STATUS_UPLOAD);
         PendingIntent alarmWakeIntent = PendingIntent.getBroadcast(
@@ -27,11 +27,11 @@ public class WakeUpAlarmHelper {
         AlarmManager alarmManager = (AlarmManager) AppContextHelper.getContext()
                 .getSystemService(Context.ALARM_SERVICE);
         if (command == SET_WAKE_UP_ALARM) {
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + uploadRepeatTime, uploadRepeatTime,
-                    alarmWakeIntent);
-            Log.d(LOGTAG, "Setting repeating WakeUp alarm for time in seconds: "
-                    + uploadRepeatTime / 1000);
+            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + (uploadRepeatTime * 60 * 1000),
+                    (uploadRepeatTime * 60 * 1000), alarmWakeIntent);
+            Log.d(LOGTAG, "Setting repeating WakeUp alarm for time in minutes: "
+                    + uploadRepeatTime);
         } else if (command == CANCEL_WAKE_UP_ALARM) {
             alarmManager.cancel(alarmWakeIntent);
             Log.d(LOGTAG, "Cancelled WakeUp alarm for local battery status upload.");

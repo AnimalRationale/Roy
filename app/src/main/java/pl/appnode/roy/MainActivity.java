@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-        WakeUpAlarmHelper.alarmManager(30000L, SET_WAKE_UP_ALARM);
+        WakeUpAlarmHelper.alarmManager(30, SET_WAKE_UP_ALARM);
     }
 
     @Override
