@@ -11,6 +11,8 @@ public class WakeUpAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent alarmIntent) {
-        Log.d(LOGTAG, "Starting service on alarm");
+        Log.d(LOGTAG, "Starting service on alarm.");
+        Intent serviceIntent = new Intent(context, RemoteUpdateService.class);
+        context.startService(serviceIntent);
     }
 }

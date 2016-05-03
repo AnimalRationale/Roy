@@ -19,14 +19,23 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 
 
 public class RemoteUpdateService extends Service {
+
     private static final String LOGTAG = "Service";
+    Firebase mFireRef;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Firebase mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
+        mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
+    }
+
+    @Override
+    public int onStartCommand(Intent startIntent, int flags, int startId) {
+        int startMode = START_STICKY;
+        Log.d(LOGTAG, "Service started.");
         Firebase localBatteryRef = mFireRef.child("devices").child(readLocalBatteryStatus().batteryDeviceId);
         localBatteryRef.setValue(readLocalBatteryStatus());
+        return startMode;
     }
 
     private BatteryItem readLocalBatteryStatus() {
