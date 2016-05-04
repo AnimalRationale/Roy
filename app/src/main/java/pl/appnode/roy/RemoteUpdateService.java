@@ -26,6 +26,7 @@ public class RemoteUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Firebase.setAndroidContext(this);
         mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
     }
 
