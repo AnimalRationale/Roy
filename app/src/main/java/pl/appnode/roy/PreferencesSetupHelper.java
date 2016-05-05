@@ -5,18 +5,32 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.os.Build;
 
+import static pl.appnode.roy.Constants.CANCEL_WAKE_UP_ALARM;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_FIRSTRUN;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_ORIENTATION;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_THEME;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_TRANSITIONS;
+import static pl.appnode.roy.Constants.KEY_SETTINGS_UPLOAD;
+import static pl.appnode.roy.Constants.SET_WAKE_UP_ALARM;
 
 /**
  * Reads (and uses some of) application settings
  * from app's default shared preferences.
  */
 public class PreferencesSetupHelper {
+
+    /**
+     * Controls ability to upload local battery status to remote database.     *
+     *
+     * @param context the context of calling activity
+     */
+
+    public static void uploadAlarmSetup(Context context) {
+        if (isUploadOn(context)) {
+            WakeUpAlarmHelper.alarmManager(30, SET_WAKE_UP_ALARM);
+        } else WakeUpAlarmHelper.alarmManager(0, CANCEL_WAKE_UP_ALARM);
+    }
 
     /**
      * Sets up proper (dark or light) system theme.
@@ -41,6 +55,18 @@ public class PreferencesSetupHelper {
         if (isRotationOn(activity)) {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         } else activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    /**
+     * Returns state of preference setting allowing local battery status periodical upload to remote database.
+     *
+     * @param context the context of calling activity
+     *
+     * @return true if upload is allowed in preferences
+     */
+    public static boolean isUploadOn(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        return settings.getBoolean(KEY_SETTINGS_UPLOAD, false);
     }
 
     /**

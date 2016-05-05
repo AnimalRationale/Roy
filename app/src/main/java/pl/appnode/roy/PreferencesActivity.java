@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 
 import static pl.appnode.roy.Constants.KEY_SETTINGS_ORIENTATION;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_THEME;
+import static pl.appnode.roy.Constants.KEY_SETTINGS_UPLOAD;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
+import static pl.appnode.roy.PreferencesSetupHelper.uploadAlarmSetup;
 
 /**
  * Displays application's preferences settings and handles changes in settings.
@@ -60,6 +62,9 @@ public class PreferencesActivity extends PreferenceActivity
         }
         if (key.equals(KEY_SETTINGS_ORIENTATION)) {
             orientationSetup(this);
+        }
+        if (key.equals(KEY_SETTINGS_UPLOAD)) {
+            uploadAlarmSetup(this);
         }
     }
 

@@ -74,6 +74,7 @@ import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
+import static pl.appnode.roy.PreferencesSetupHelper.uploadAlarmSetup;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -152,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-        WakeUpAlarmHelper.alarmManager(30, SET_WAKE_UP_ALARM);
+        // Set (or cancel) alarm for local battery status upload accordingly to preferences
+        uploadAlarmSetup(this);
     }
 
     @Override

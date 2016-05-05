@@ -23,11 +23,14 @@ final class Constants {
     static final int HOUR_IN_MILLIS = 60 * MINUTE_IN_MILLIS;
     static final int DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
 
-    /** Keys for saving app settings (theme, orientation, colors transitions) and first run check). */
+    /** Keys for saving app settings (first run indicator, local battery status upload) */
+    public static final String KEY_SETTINGS_FIRSTRUN = "settings_first_run";
+    public static final String KEY_SETTINGS_UPLOAD = "settings_checkbox_upload_battery_status";
+
+    /** Keys for saving appearance settings (theme, orientation, colors transitions). */
     public static final String KEY_SETTINGS_THEME = "settings_checkbox_theme";
     public static final String KEY_SETTINGS_ORIENTATION = "settings_checkbox_orientation";
     public static final String KEY_SETTINGS_TRANSITIONS = "settings_checkbox_transitions";
-    public static final String KEY_SETTINGS_FIRSTRUN = "settings_first_run";
 
     /** Key for saving name of logged in account */
     public static final String PREF_ACCOUNT_NAME = "accountName";

@@ -5,7 +5,7 @@
     <string name="preferences_app_settings_title">Application settings</string>
     <string name="preferences_checkbox_upload_battery_status">Upload battery status</string>
     <string name="preferences_checkbox_upload_battery_status_description">Periodically upload this
-        device\'s battery status to your Google Drive
+        device\'s battery status to Firebase account
     </string>
 
     <string name="preferences_visual_settings_title">Appearance settings</string>
