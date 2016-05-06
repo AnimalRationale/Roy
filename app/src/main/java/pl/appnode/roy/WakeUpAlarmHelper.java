@@ -23,7 +23,7 @@ public class WakeUpAlarmHelper {
         Intent alarmIntent = new Intent(AppContextHelper.getContext(), WakeUpAlarmReceiver.class);
         alarmIntent.setAction(ACTION_BATTERY_STATUS_UPLOAD);
         PendingIntent alarmWakeIntent = PendingIntent.getBroadcast(
-                AppContextHelper.getContext(), 0, alarmIntent, 0);
+                AppContextHelper.getContext(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) AppContextHelper.getContext()
                 .getSystemService(Context.ALARM_SERVICE);
         if (command == SET_WAKE_UP_ALARM) {

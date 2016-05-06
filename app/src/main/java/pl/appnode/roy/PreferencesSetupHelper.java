@@ -21,7 +21,7 @@ import static pl.appnode.roy.Constants.SET_WAKE_UP_ALARM;
 public class PreferencesSetupHelper {
 
     /**
-     * Controls ability to upload local battery status to remote database.     *
+     * Controls ability to upload local battery status to remote database.
      *
      * @param context the context of calling activity
      */
