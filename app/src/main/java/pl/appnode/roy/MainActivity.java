@@ -286,6 +286,31 @@ public class MainActivity extends AppCompatActivity {
         localBatteryRef.setValue(mLocalBattery);
     }
 
+    public void downloadBatteriesInfoButton(View button) {
+        mFireRef.child("devices").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                TextView remoteBatteriesData = (TextView) findViewById(R.id.text_remote_data);
+                remoteBatteriesData.setText("");
+                int i = 0;
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    i++;
+                    BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
+                    String remoteList = remoteBatteriesData.getText().toString();
+                    if (i != 1) {remoteList = remoteList + "\n\n";}
+                    remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                    remoteList = remoteList + " - " + batteryItem.getBatteryLevel() + "%"
+                            + " checked " + batteryStatusCheckTime(batteryItem);
+                    remoteBatteriesData.setText(remoteList);
+                }
+                Log.d(LOGTAG, "Download batteries info.");
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
     public void showBatteryLevel() {
         readLocalBatteryStatus();
         int batteryLevelValue = mLocalBattery.batteryLevel;

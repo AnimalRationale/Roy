@@ -7,7 +7,7 @@
     <string name="no_data">No data</string>
     <string name="not_available">N/A</string>
     <string name="button_upload_local_battery_status">Upload battery status</string>
-
+    <string name="button_download_remote_batteries_info">Download remote info</string>
     <string name="error_battery_check">Error</string>
     <string name="error_network_access">No Internet connection</string>
 

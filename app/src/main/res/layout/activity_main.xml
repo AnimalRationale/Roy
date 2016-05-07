@@ -136,11 +136,20 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/text_battery_level_check_time"
             android:onClick="uploadBatteryStatusButton"/>
+        <Button
+            android:theme="@style/button"
+            android:id="@+id/button_batteries_info_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_download_remote_batteries_info"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/button_battery_upload"
+            android:onClick="downloadBatteriesInfoButton"/>
         <TextView
             android:id="@+id/text_remote_data"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_battery_upload"
+            android:layout_below="@+id/button_batteries_info_download"
             android:layout_marginTop="15dp"
             android:text="@string/not_available"/>
     </RelativeLayout>
