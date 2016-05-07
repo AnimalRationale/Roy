@@ -14,6 +14,11 @@
         android:orderInCategory="90"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_clear_list"
+        android:title="@string/menu_action_clear_list"
+        android:orderInCategory="95"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_about"
         android:title="@string/menu_action_about"
         android:orderInCategory="100"

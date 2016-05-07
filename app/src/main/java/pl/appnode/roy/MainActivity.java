@@ -267,10 +267,18 @@ public class MainActivity extends AppCompatActivity {
             Intent settingsIntent = new Intent(this, PreferencesActivity.class);
             this.startActivity(settingsIntent);
         }
+        if (id == R.id.action_clear_list) {
+            clearRemoteBatteriesList();
+        }
         if (id == R.id.action_about) {
             AboutDialog.showDialog(MainActivity.this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clearRemoteBatteriesList() {
+        TextView remoteBatteriesData = (TextView) findViewById(R.id.text_remote_data);
+        remoteBatteriesData.setText("");
     }
 
     public void uploadBatteryStatusButton(View button) {
