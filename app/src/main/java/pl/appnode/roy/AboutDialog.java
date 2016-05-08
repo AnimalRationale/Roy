@@ -57,14 +57,12 @@ class AboutDialog {
         View aboutDialog = layoutInflater.inflate(R.layout.dialog_about, null) ;
         TextView textAbout = (TextView) aboutDialog.findViewById(R.id.aboutDialogInfo);
         textAbout.setText(aboutVersion);
-        if (sSavedAccountName != null ) {
+        if (sSavedAccountName != null && sCredentialsAccountName != null) {
+            View accountInfo = aboutDialog.findViewById(R.id.aboutDialogGoogleAccountInfo);
+            accountInfo.setVisibility(View.VISIBLE);
             TextView textSavedAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogSavedAccountName);
-            textSavedAccountName.setVisibility(View.VISIBLE);
             textSavedAccountName.setText(sSavedAccountName);
-        }
-        if (sCredentialsAccountName != null ) {
             TextView textCredentialsAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogCredentialsAccountName);
-            textCredentialsAccountName.setVisibility(View.VISIBLE);
             textCredentialsAccountName.setText(sCredentialsAccountName);
         }
         new AlertDialog.Builder(callingActivity)
