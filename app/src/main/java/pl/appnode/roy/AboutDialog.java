@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
  */
 class AboutDialog {
 
+    private static String LOGTAG = "AboutDialog";
     private static String sVersionName;
     private static String sVersionCode;
     private static String sSavedAccountName;
@@ -38,10 +40,12 @@ class AboutDialog {
     private static void accountNameSavedInPreferences(Activity context) {
         SharedPreferences settings = context.getPreferences(Context.MODE_PRIVATE);
         sSavedAccountName = settings.getString(PREF_ACCOUNT_NAME, null);
+        Log.d(LOGTAG, "Account name: " + sSavedAccountName);
     }
 
     private static void accountNameInCredentials() {
         sCredentialsAccountName = MainActivity.getCredentialsAccountName();
+        Log.d(LOGTAG, "Account name in credentials: " + sCredentialsAccountName);
     }
 
     public static void showDialog(Activity callingActivity) {
@@ -53,10 +57,16 @@ class AboutDialog {
         View aboutDialog = layoutInflater.inflate(R.layout.dialog_about, null) ;
         TextView textAbout = (TextView) aboutDialog.findViewById(R.id.aboutDialogInfo);
         textAbout.setText(aboutVersion);
-        TextView textSavedAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogSavedAccountName);
-        textSavedAccountName.setText(sSavedAccountName);
-        TextView textCredentialsAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogCredentialsAccountName);
-        textCredentialsAccountName.setText(sCredentialsAccountName);
+        if (sSavedAccountName != null ) {
+            TextView textSavedAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogSavedAccountName);
+            textSavedAccountName.setVisibility(View.VISIBLE);
+            textSavedAccountName.setText(sSavedAccountName);
+        }
+        if (sCredentialsAccountName != null ) {
+            TextView textCredentialsAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogCredentialsAccountName);
+            textCredentialsAccountName.setVisibility(View.VISIBLE);
+            textCredentialsAccountName.setText(sCredentialsAccountName);
+        }
         new AlertDialog.Builder(callingActivity)
                 .setTitle(callingActivity.getResources().getString(R.string.dialog_about_title)
                         + callingActivity.getString(R.string.app_name))
