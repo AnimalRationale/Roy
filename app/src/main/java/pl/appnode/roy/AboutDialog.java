@@ -23,6 +23,7 @@ class AboutDialog {
     private static String sVersionCode;
     private static String sSavedAccountName;
     private static String sCredentialsAccountName;
+    private static AlertDialog sAboutDialog;
 
     private static void versionInfo(Context context) {
         try {
@@ -54,26 +55,31 @@ class AboutDialog {
         accountNameInCredentials();
         String aboutVersion = sVersionName + "." + sVersionCode;
         LayoutInflater layoutInflater = LayoutInflater.from(callingActivity);
-        View aboutDialog = layoutInflater.inflate(R.layout.dialog_about, null) ;
-        TextView textAbout = (TextView) aboutDialog.findViewById(R.id.aboutDialogInfo);
+        View aboutDialogView = layoutInflater.inflate(R.layout.dialog_about, null) ;
+        TextView textAbout = (TextView) aboutDialogView.findViewById(R.id.aboutDialogInfo);
         textAbout.setText(aboutVersion);
         if (sSavedAccountName != null && sCredentialsAccountName != null) {
-            View accountInfo = aboutDialog.findViewById(R.id.aboutDialogGoogleAccountInfo);
+            View accountInfo = aboutDialogView.findViewById(R.id.aboutDialogGoogleAccountInfo);
             accountInfo.setVisibility(View.VISIBLE);
-            TextView textSavedAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogSavedAccountName);
+            TextView textSavedAccountName = (TextView) aboutDialogView.findViewById(R.id.aboutDialogSavedAccountName);
             textSavedAccountName.setText(sSavedAccountName);
-            TextView textCredentialsAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogCredentialsAccountName);
+            TextView textCredentialsAccountName = (TextView) aboutDialogView.findViewById(R.id.aboutDialogCredentialsAccountName);
             textCredentialsAccountName.setText(sCredentialsAccountName);
         }
-        TextView textRemoteDatabse = (TextView) aboutDialog.findViewById(R.id.aboutDialogFirebaseAddress);
+        TextView textRemoteDatabse = (TextView) aboutDialogView.findViewById(R.id.aboutDialogFirebaseAddress);
         textRemoteDatabse.setText(BuildConfig.FB_BASE_ADDRESS);
-        new AlertDialog.Builder(callingActivity)
-                .setTitle(callingActivity.getResources().getString(R.string.dialog_about_title)
-                        + callingActivity.getString(R.string.app_name))
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(callingActivity);
+        alertDialog.setTitle(callingActivity.getResources().getString(R.string.dialog_about_title) + callingActivity.getString(R.string.app_name))
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
                 .setPositiveButton(callingActivity.getResources().getString(R.string.dialog_about_ok), null)
-                .setView(aboutDialog)
-                .show();
+                .setView(aboutDialogView);
+        sAboutDialog = alertDialog.show();
+    }
+
+    public static void dismissDialog() {
+        if (sAboutDialog != null) {
+            sAboutDialog.dismiss();
+        }
     }
 }
