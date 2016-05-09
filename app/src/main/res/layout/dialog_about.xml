@@ -59,5 +59,21 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     />
         </LinearLayout>
+        <TextView
+            android:id="@+id/aboutDialogTextFirebaseAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/dialog_about_firebase_address"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            />
+        <TextView
+            android:id="@+id/aboutDialogFirebaseAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/not_available"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
     </LinearLayout>
 </ScrollView>

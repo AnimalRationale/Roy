@@ -65,6 +65,8 @@ class AboutDialog {
             TextView textCredentialsAccountName = (TextView) aboutDialog.findViewById(R.id.aboutDialogCredentialsAccountName);
             textCredentialsAccountName.setText(sCredentialsAccountName);
         }
+        TextView textRemoteDatabse = (TextView) aboutDialog.findViewById(R.id.aboutDialogFirebaseAddress);
+        textRemoteDatabse.setText(BuildConfig.FB_BASE_ADDRESS);
         new AlertDialog.Builder(callingActivity)
                 .setTitle(callingActivity.getResources().getString(R.string.dialog_about_title)
                         + callingActivity.getString(R.string.app_name))

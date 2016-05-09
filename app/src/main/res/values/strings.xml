@@ -34,6 +34,7 @@
     <string name="dialog_about_version">Version: \u0020</string>
     <string name="dialog_about_saved_account_name">Saved account name: \u0020</string>
     <string name="dialog_about_credentials_account_name">Credentials account name: \u0020</string>
+    <string name="dialog_about_firebase_address">Remote database: \u0020</string>
     <string name="dialog_about_ok">OK</string>
     <string name="dialog_about_version_name_error">\?</string>
     <string name="dialog_about_version_code_error">\?</string>
