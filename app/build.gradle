@@ -38,4 +38,5 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
     compile 'com.firebase:firebase-client-android:2.5.2'
+    compile 'com.pavelsikun:material-seekbar-preference:0.12.1'
 }

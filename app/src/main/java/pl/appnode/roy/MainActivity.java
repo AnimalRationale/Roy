@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
         final long time_difference = now - batteryCheckTime;
         if (time_difference < MINUTE_IN_MILLIS)
             return getString(R.string.battery_check_time_current);
-        else if (time_difference < 50 * MINUTE_IN_MILLIS)
+        else if (time_difference < 60 * MINUTE_IN_MILLIS)
             return getString(R.string.battery_check_time_ago,
                     getResources().getQuantityString(R.plurals.minutes, (int) time_difference / MINUTE_IN_MILLIS, time_difference / MINUTE_IN_MILLIS));
         else if (time_difference < 24 * HOUR_IN_MILLIS)
