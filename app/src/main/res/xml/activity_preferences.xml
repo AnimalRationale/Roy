@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:title="@string/preferences_app_settings_title"
@@ -10,6 +12,16 @@
             android:icon="@drawable/ic_cloud_upload_24px"
             android:summary="@string/preferences_checkbox_upload_battery_status_description"
             android:defaultValue="false" />
+        <com.pavelsikun.seekbarpreference.SeekBarPreference
+            android:key="pref_key_upload_frequency"
+            android:title="SeekbarPreference"
+            android:summary="Time in minutes between uploads"
+            android:enabled="true"
+            android:defaultValue="30"
+            sample:msbp_minValue="1"
+            sample:msbp_maxValue="100"
+            sample:msbp_interval="1"
+            sample:msbp_measurementUnit="min"/>
     </PreferenceCategory>
 
     <PreferenceCategory
