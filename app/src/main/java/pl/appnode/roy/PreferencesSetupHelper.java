@@ -12,6 +12,7 @@ import static pl.appnode.roy.Constants.KEY_SETTINGS_ORIENTATION;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_THEME;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_TRANSITIONS;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_UPLOAD;
+import static pl.appnode.roy.Constants.KEY_SETTINGS_UPLOAD_FREQUENCY;
 import static pl.appnode.roy.Constants.SET_WAKE_UP_ALARM;
 
 /**
@@ -28,7 +29,7 @@ public class PreferencesSetupHelper {
 
     public static void uploadAlarmSetup(Context context) {
         if (isUploadOn(context)) {
-            WakeUpAlarmHelper.alarmManager(30, SET_WAKE_UP_ALARM);
+            WakeUpAlarmHelper.alarmManager(uploadFrequency(context), SET_WAKE_UP_ALARM);
         } else WakeUpAlarmHelper.alarmManager(0, CANCEL_WAKE_UP_ALARM);
     }
 
@@ -67,6 +68,18 @@ public class PreferencesSetupHelper {
     public static boolean isUploadOn(Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         return settings.getBoolean(KEY_SETTINGS_UPLOAD, false);
+    }
+
+    /**
+     * Returns state of preference setting with battery status upload frequency in minutes.
+     *
+     * @param context the context of calling activity
+     *
+     * @return number of minutes between local battery status uploads
+     */
+    public static int uploadFrequency(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        return settings.getInt(KEY_SETTINGS_UPLOAD_FREQUENCY, 30);
     }
 
     /**
