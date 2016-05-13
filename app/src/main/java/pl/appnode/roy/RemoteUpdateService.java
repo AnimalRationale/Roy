@@ -20,7 +20,7 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 
 public class RemoteUpdateService extends Service {
 
-    private static final String LOGTAG = "Service";
+    private static final String LOGTAG = "RemoteUpdateService";
     Firebase mFireRef;
 
     @Override

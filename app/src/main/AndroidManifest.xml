@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".AppContextHelper"
@@ -18,7 +19,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,6 +34,11 @@
             android:exported="false"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@mipmap/ic_launcher" />
+        <receiver android:name=".BootCompletedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".WakeUpAlarmReceiver" >
             <intent-filter>
                 <action android:name="pl.appnode.timeboxer.BATTERY_STATUS_UPLOAD" />
@@ -44,5 +49,4 @@
             android:value="@integer/google_play_services_version" />
 
     </application>
-
 </manifest>
