@@ -14,7 +14,10 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Log.d(LOGTAG, "Boot completed, setting upload.");
+        Log.d(LOGTAG, "Boot completed, setting repeating alarm for upload.");
         uploadAlarmSetup(context);
+        Log.d(LOGTAG, "Boot completed, starting service for battery status upload.");
+        Intent serviceIntent = new Intent(context, RemoteUpdateService.class);
+        context.startService(serviceIntent);
     }
 }
