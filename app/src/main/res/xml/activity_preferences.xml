@@ -6,6 +6,10 @@
     <PreferenceCategory
         android:title="@string/preferences_app_settings_title"
         android:key="pref_key_app_settings">
+        <EditTextPreference
+            android:title="@string/preferences_edit_text_device_name"
+            android:key="settings_device_custom_name"
+            android:summary="@string/preferences_edit_text_device_name_description"/>
         <CheckBoxPreference
             android:key="settings_checkbox_upload_battery_status"
             android:title="@string/preferences_checkbox_upload_battery_status"
@@ -13,7 +17,7 @@
             android:summary="@string/preferences_checkbox_upload_battery_status_description"
             android:defaultValue="false" />
         <com.pavelsikun.seekbarpreference.SeekBarPreference
-            android:key="pref_key_upload_frequency"
+            android:key="settings_upload_frequency"
             android:title="SeekbarPreference"
             android:summary="Time in minutes between uploads"
             android:enabled="true"

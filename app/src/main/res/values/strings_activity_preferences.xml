@@ -7,10 +7,12 @@
     <string name="preferences_checkbox_upload_battery_status_description">Periodically upload this
         device\'s battery status to Firebase account
     </string>
+    <string name="preferences_edit_text_device_name">Device name</string>
+    <string name="preferences_edit_text_device_name_description">Your own custom name for this device</string>
 
     <string name="preferences_visual_settings_title">Appearance settings</string>
     <string name="preferences_checkbox_theme">Dark theme</string>
-    <string name="preferences_checkbox_theme_description">Set dark version of device\'s default theme
+    <string name="preferences_checkbox_theme_description">Set dark version of default theme
     </string>
 
     <string name="preferences_checkbox_orientation">Screen rotation</string>

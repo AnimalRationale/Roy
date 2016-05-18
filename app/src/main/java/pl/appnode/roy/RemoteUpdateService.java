@@ -16,6 +16,7 @@ import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
+import static pl.appnode.roy.PreferencesSetupHelper.getDeviceCustomName;
 
 
 public class RemoteUpdateService extends Service {
@@ -42,6 +43,7 @@ public class RemoteUpdateService extends Service {
     private BatteryItem readLocalBatteryStatus() {
         BatteryItem localBattery = new BatteryItem();;
         localBattery.batteryDeviceName = MainActivity.getDeviceName();
+        localBattery.batteryDeviceCustomName = getDeviceCustomName(this);
         localBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d(LOGTAG, "Device ID: " + localBattery.batteryDeviceId);

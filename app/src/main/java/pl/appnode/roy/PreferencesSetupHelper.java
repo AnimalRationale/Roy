@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import static pl.appnode.roy.Constants.CANCEL_WAKE_UP_ALARM;
+import static pl.appnode.roy.Constants.KEY_SETTINGS_DEVICE_CUSTOM_NAME;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_FIRSTRUN;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_ORIENTATION;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_THEME;
@@ -68,6 +69,18 @@ public class PreferencesSetupHelper {
     public static boolean isUploadOn(Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         return settings.getBoolean(KEY_SETTINGS_UPLOAD, false);
+    }
+
+    /**
+     * Returns user's custom device name, if set in preferences.
+     *
+     * @param context the context of calling activity
+     *
+     * @return device name set up in app preferences
+     */
+    public static String getDeviceCustomName(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        return settings.getString(KEY_SETTINGS_DEVICE_CUSTOM_NAME, "");
     }
 
     /**

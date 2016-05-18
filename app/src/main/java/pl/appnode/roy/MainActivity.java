@@ -70,6 +70,7 @@ import static pl.appnode.roy.Constants.REQUEST_ACCOUNT_PICKER;
 import static pl.appnode.roy.Constants.REQUEST_AUTHORIZATION;
 import static pl.appnode.roy.Constants.REQUEST_GOOGLE_PLAY_SERVICES;
 import static pl.appnode.roy.Constants.SET_WAKE_UP_ALARM;
+import static pl.appnode.roy.PreferencesSetupHelper.getDeviceCustomName;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
@@ -132,7 +133,11 @@ public class MainActivity extends AppCompatActivity {
                     BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
                     String remoteList = remoteBatteriesData.getText().toString();
                     if (i != 1) {remoteList = remoteList + "\n\n";}
-                    remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                    if (batteryItem.batteryDeviceCustomName.equals("")) {
+                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                    } else {
+                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceCustomName();
+                    }
                     remoteList = remoteList + " - " + batteryItem.getBatteryLevel() + "%"
                             + " checked " + batteryStatusCheckTime(batteryItem);
                     remoteBatteriesData.setText(remoteList);
@@ -304,7 +309,11 @@ public class MainActivity extends AppCompatActivity {
                     BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
                     String remoteList = remoteBatteriesData.getText().toString();
                     if (i != 1) {remoteList = remoteList + "\n\n";}
-                    remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                    if (batteryItem.batteryDeviceCustomName.equals("")) {
+                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                    } else {
+                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceCustomName();
+                    }
                     remoteList = remoteList + " - " + batteryItem.getBatteryLevel() + "%"
                             + " checked " + batteryStatusCheckTime(batteryItem);
                     remoteBatteriesData.setText(remoteList);
@@ -345,7 +354,9 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView deviceName = (TextView) findViewById(R.id.text_battery_level_description);
         deviceName.setTextColor(textColor);
-        deviceName.setText(mLocalBattery.batteryDeviceName);
+        if (mLocalBattery.batteryDeviceCustomName.equals("")) {
+            deviceName.setText(mLocalBattery.batteryDeviceName);
+        } else deviceName.setText(mLocalBattery.batteryDeviceCustomName);
         ProgressBar batteryLevelIndicator = (ProgressBar) findViewById(R.id.battery_progress_bar);
         batteryLevelIndicator.getProgressDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
         batteryLevelIndicator.getBackground().setColorFilter(indicatorBackgroundColor, PorterDuff.Mode.SRC_IN);
@@ -424,6 +435,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void readLocalBatteryStatus() {
         mLocalBattery.batteryDeviceName = getDeviceName();
+        mLocalBattery.batteryDeviceCustomName = getDeviceCustomName(this);
         mLocalBattery.batteryDeviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d(LOGTAG, "Device ID: " + mLocalBattery.batteryDeviceId);

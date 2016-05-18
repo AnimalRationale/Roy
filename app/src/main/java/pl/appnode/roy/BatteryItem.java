@@ -6,6 +6,7 @@ package pl.appnode.roy;
 public class BatteryItem {
     String batteryDeviceId;
     String batteryDeviceName;
+    String batteryDeviceCustomName;
     long batteryCheckTime;
     int batteryLevel;
     int batteryPluggedStatus;
@@ -20,6 +21,8 @@ public class BatteryItem {
     public String getBatteryDeviceName() {
         return batteryDeviceName;
     }
+
+    public String getBatteryDeviceCustomName() { return batteryDeviceCustomName; }
 
     public long getBatteryCheckTime() {
         return batteryCheckTime;

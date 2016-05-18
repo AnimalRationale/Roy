@@ -26,7 +26,8 @@ final class Constants {
     /** Keys for saving app settings (first run indicator, local battery status upload) */
     public static final String KEY_SETTINGS_FIRSTRUN = "settings_first_run";
     public static final String KEY_SETTINGS_UPLOAD = "settings_checkbox_upload_battery_status";
-    public static final String KEY_SETTINGS_UPLOAD_FREQUENCY = "pref_key_upload_frequency";
+    public static final String KEY_SETTINGS_UPLOAD_FREQUENCY = "settings_upload_frequency";
+    public static final String KEY_SETTINGS_DEVICE_CUSTOM_NAME = "settings_device_custom_name";
 
     /** Keys for saving appearance settings (theme, orientation, colors transitions). */
     public static final String KEY_SETTINGS_THEME = "settings_checkbox_theme";
