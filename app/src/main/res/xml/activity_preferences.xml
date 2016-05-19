@@ -7,10 +7,12 @@
         android:title="@string/preferences_app_settings_title"
         android:key="pref_key_app_settings">
         <EditTextPreference
-            android:title="@string/preferences_edit_text_device_name"
             android:key="settings_device_custom_name"
+            android:title="@string/preferences_edit_text_device_name"
+            android:icon="@drawable/ic_editor_mode_edit"
             android:summary="@string/preferences_edit_text_device_name_description"
-            android:dialogTitle="@string/preferences_edit_text_device_name_dialog_title"/>
+            android:dialogTitle="@string/preferences_edit_text_device_name_dialog_title"
+            android:maxLength="20"/>
         <CheckBoxPreference
             android:key="settings_checkbox_upload_battery_status"
             android:title="@string/preferences_checkbox_upload_battery_status"
