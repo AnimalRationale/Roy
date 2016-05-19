@@ -1,8 +1,11 @@
 package pl.appnode.roy;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -13,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import static pl.appnode.roy.Constants.KEY_SETTINGS_DEVICE_CUSTOM_NAME;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_ORIENTATION;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_THEME;
 import static pl.appnode.roy.Constants.KEY_SETTINGS_UPLOAD;
+import static pl.appnode.roy.PreferencesSetupHelper.getDeviceCustomName;
 import static pl.appnode.roy.PreferencesSetupHelper.orientationSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.uploadAlarmSetup;
@@ -45,19 +50,25 @@ public class PreferencesActivity extends PreferenceActivity
                 .replace(android.R.id.content, new RoyPreferenceFragment()).commit();
     }
 
-    public static class RoyPreferenceFragment extends PreferenceFragment
-    {
+    public static class RoyPreferenceFragment extends PreferenceFragment {
         @Override
-        public void onCreate(final Bundle savedInstanceState)
-        {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.activity_preferences);
+            String deviceCustomName = getDeviceCustomName(AppContextHelper.getContext());
+            if (!deviceCustomName.equals("")) {
+                Preference customNameTitle =  findPreference(KEY_SETTINGS_DEVICE_CUSTOM_NAME);
+                customNameTitle.setTitle(getString(R.string.preferences_edit_text_device_name) + ": " + deviceCustomName);
+            } else {
+                Preference customNameTitle = findPreference(KEY_SETTINGS_DEVICE_CUSTOM_NAME);
+                customNameTitle.setTitle(getString(R.string.preferences_edit_text_device_name));
+            }
         }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
-        if (key.equals(KEY_SETTINGS_THEME)) {
+        if (key.equals(KEY_SETTINGS_THEME) | key.equals(KEY_SETTINGS_DEVICE_CUSTOM_NAME)) {
             this.recreate();
         }
         if (key.equals(KEY_SETTINGS_ORIENTATION)) {

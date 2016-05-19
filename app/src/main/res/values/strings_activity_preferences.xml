@@ -8,7 +8,8 @@
         device\'s battery status to Firebase account
     </string>
     <string name="preferences_edit_text_device_name">Device name</string>
-    <string name="preferences_edit_text_device_name_description">Your own custom name for this device</string>
+    <string name="preferences_edit_text_device_name_description">Set your own custom name for this device</string>
+    <string name="preferences_edit_text_device_name_dialog_title">Custom name for this device</string>
 
     <string name="preferences_visual_settings_title">Appearance settings</string>
     <string name="preferences_checkbox_theme">Dark theme</string>

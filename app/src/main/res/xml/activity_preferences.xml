@@ -9,7 +9,8 @@
         <EditTextPreference
             android:title="@string/preferences_edit_text_device_name"
             android:key="settings_device_custom_name"
-            android:summary="@string/preferences_edit_text_device_name_description"/>
+            android:summary="@string/preferences_edit_text_device_name_description"
+            android:dialogTitle="@string/preferences_edit_text_device_name_dialog_title"/>
         <CheckBoxPreference
             android:key="settings_checkbox_upload_battery_status"
             android:title="@string/preferences_checkbox_upload_battery_status"
