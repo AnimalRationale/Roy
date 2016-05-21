@@ -134,11 +134,11 @@ public class MainActivity extends AppCompatActivity {
                     String remoteList = remoteBatteriesData.getText().toString();
                     if (i != 1) {remoteList = remoteList + "\n\n";}
                     if (batteryItem.batteryDeviceCustomName.equals("")) {
-                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                        remoteList = remoteList + batteryItem.getBatteryDeviceName();
                     } else {
-                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceCustomName();
+                        remoteList = remoteList + batteryItem.getBatteryDeviceCustomName();
                     }
-                    remoteList = remoteList + " - " + batteryItem.getBatteryLevel() + "%"
+                    remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
                             + " checked " + batteryStatusCheckTime(batteryItem);
                     remoteBatteriesData.setText(remoteList);
                     Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
