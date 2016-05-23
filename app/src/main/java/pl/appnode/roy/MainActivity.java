@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Log.d(LOGTAG, "The read failed: " + firebaseError.getMessage());
+                Log.d(LOGTAG, "Firebase error: " + firebaseError.getMessage());
             }
         });
         mProgress = new ProgressDialog(this);
@@ -311,11 +311,11 @@ public class MainActivity extends AppCompatActivity {
                     String remoteList = remoteBatteriesData.getText().toString();
                     if (i != 1) {remoteList = remoteList + "\n\n";}
                     if (batteryItem.batteryDeviceCustomName.equals("")) {
-                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceName();
+                        remoteList = remoteList + batteryItem.getBatteryDeviceName();
                     } else {
-                        remoteList = remoteList + i + ") " + batteryItem.getBatteryDeviceCustomName();
+                        remoteList = remoteList + batteryItem.getBatteryDeviceCustomName();
                     }
-                    remoteList = remoteList + " - " + batteryItem.getBatteryLevel() + "%"
+                    remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
                             + " checked " + batteryStatusCheckTime(batteryItem);
                     remoteBatteriesData.setText(remoteList);
                 }
@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Log.d(LOGTAG, "Firebase error");
+                Log.d(LOGTAG, "Firebase error: " + firebaseError.getMessage());
             }
         });
     }
