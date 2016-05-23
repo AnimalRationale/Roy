@@ -32,10 +32,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     BatteryItem mLocalBattery = new BatteryItem();
     ProgressDialog mProgress;
     Menu mMenu;
-    Firebase mFireRef;
+    DatabaseReference mFireRef;
     static boolean sThemeChangeFlag;
     static GoogleAccountCredential sCredential;
 
@@ -118,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setIcon(R.mipmap.ic_launcher);
         }
         // Initialise Firebase client, set reference to database, and data change listener
-        Firebase.setAndroidContext(this);
-        mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
         mFireRef.child("devices").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
                 Log.d(LOGTAG, "The read failed: " + firebaseError.getMessage());
             }
         });
@@ -293,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void uploadBatteryStatusButton(View button) {
-        Firebase localBatteryRef = mFireRef.child("devices").child(mLocalBattery.batteryDeviceId);
+        DatabaseReference localBatteryRef = mFireRef.child("devices").child(mLocalBattery.batteryDeviceId);
         localBatteryRef.setValue(mLocalBattery);
     }
 
@@ -321,7 +322,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOGTAG, "Download batteries info.");
             }
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.d(LOGTAG, "Firebase error");
             }
         });
     }
