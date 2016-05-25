@@ -7,7 +7,9 @@ import android.os.BatteryManager;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import com.firebase.client.Firebase;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
@@ -22,20 +24,20 @@ import static pl.appnode.roy.PreferencesSetupHelper.getDeviceCustomName;
 public class RemoteUpdateService extends Service {
 
     private static final String LOGTAG = "RemoteUpdateService";
-    Firebase mFireRef;
+    DatabaseReference mFireRef;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Firebase.setAndroidContext(this);
-        mFireRef = new Firebase(BuildConfig.FB_BASE_ADDRESS);
+        mFireRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
     }
 
     @Override
     public int onStartCommand(Intent startIntent, int flags, int startId) {
         int startMode = START_STICKY;
         Log.d(LOGTAG, "Service started.");
-        Firebase localBatteryRef = mFireRef.child("devices").child(readLocalBatteryStatus().batteryDeviceId);
+        DatabaseReference localBatteryRef = mFireRef.child("devices").child(readLocalBatteryStatus().batteryDeviceId);
         localBatteryRef.setValue(readLocalBatteryStatus());
         return startMode;
     }

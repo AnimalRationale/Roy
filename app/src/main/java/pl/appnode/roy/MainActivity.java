@@ -70,7 +70,6 @@ import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
 import static pl.appnode.roy.Constants.REQUEST_ACCOUNT_PICKER;
 import static pl.appnode.roy.Constants.REQUEST_AUTHORIZATION;
 import static pl.appnode.roy.Constants.REQUEST_GOOGLE_PLAY_SERVICES;
-import static pl.appnode.roy.Constants.SET_WAKE_UP_ALARM;
 import static pl.appnode.roy.PreferencesSetupHelper.getDeviceCustomName;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setIcon(R.mipmap.ic_launcher);
         }
         // Initialise Firebase client, set reference to database, and data change listener
-        DatabaseReference ref = FirebaseDatabase.getInstance()
+        mFireRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
         mFireRef.child("devices").addValueEventListener(new ValueEventListener() {
             @Override
