@@ -140,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
                             + " checked " + batteryStatusCheckTime(batteryItem);
+                    if (batteryItem.batteryChargingStatus == BATTERY_DISCHARGING) {
+                        remoteList = remoteList + " - discharging";
+                    } else {
+                        remoteList = remoteList + " - charging";
+                    }
                     remoteBatteriesData.setText(remoteList);
                     Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
                     Log.d(LOGTAG, "--- battery level: " + batteryItem.getBatteryLevel() + "%");
@@ -316,6 +321,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
                             + " checked " + batteryStatusCheckTime(batteryItem);
+                    if (batteryItem.batteryChargingStatus == BATTERY_DISCHARGING) {
+                        remoteList = remoteList + " - discharging";
+                    } else {
+                        remoteList = remoteList + " - charging";
+                    }
                     remoteBatteriesData.setText(remoteList);
                 }
                 Log.d(LOGTAG, "Download batteries info.");
