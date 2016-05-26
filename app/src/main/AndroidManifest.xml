@@ -39,6 +39,12 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".PowerConnectionReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
         <receiver android:name=".WakeUpAlarmReceiver" >
             <intent-filter>
                 <action android:name="pl.appnode.timeboxer.BATTERY_STATUS_UPLOAD" />
