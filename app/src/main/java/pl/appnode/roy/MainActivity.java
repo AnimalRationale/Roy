@@ -133,21 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
                     String remoteList = remoteBatteriesData.getText().toString();
                     if (i != 1) {remoteList = remoteList + "\n\n";}
-                    if (batteryItem.batteryDeviceCustomName.equals("")) {
-                        remoteList = remoteList + batteryItem.getBatteryDeviceName();
-                    } else {
-                        remoteList = remoteList + batteryItem.getBatteryDeviceCustomName();
-                    }
-                    remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
-                            + " checked " + batteryStatusCheckTime(batteryItem);
-                    if (batteryItem.batteryChargingStatus == BATTERY_DISCHARGING) {
-                        remoteList = remoteList + " - discharging";
-                    } else {
-                        remoteList = remoteList + " - charging";
-                    }
-                    remoteBatteriesData.setText(remoteList);
-                    Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
-                    Log.d(LOGTAG, "--- battery level: " + batteryItem.getBatteryLevel() + "%");
+                    refreshRemoteBatteriesList(batteryItem, remoteBatteriesData, remoteList);
                 }
             }
             @Override
@@ -314,19 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     BatteryItem batteryItem = postSnapshot.getValue(BatteryItem.class);
                     String remoteList = remoteBatteriesData.getText().toString();
                     if (i != 1) {remoteList = remoteList + "\n\n";}
-                    if (batteryItem.batteryDeviceCustomName.equals("")) {
-                        remoteList = remoteList + batteryItem.getBatteryDeviceName();
-                    } else {
-                        remoteList = remoteList + batteryItem.getBatteryDeviceCustomName();
-                    }
-                    remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
-                            + " checked " + batteryStatusCheckTime(batteryItem);
-                    if (batteryItem.batteryChargingStatus == BATTERY_DISCHARGING) {
-                        remoteList = remoteList + " - discharging";
-                    } else {
-                        remoteList = remoteList + " - charging";
-                    }
-                    remoteBatteriesData.setText(remoteList);
+                    refreshRemoteBatteriesList(batteryItem, remoteBatteriesData, remoteList);
                 }
                 Log.d(LOGTAG, "Download batteries info.");
             }
@@ -335,6 +309,24 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOGTAG, "Firebase error: " + firebaseError.getMessage());
             }
         });
+    }
+
+    private void refreshRemoteBatteriesList(BatteryItem batteryItem, TextView remoteBatteriesData, String remoteList) {
+        if (batteryItem.batteryDeviceCustomName.equals("")) {
+            remoteList = remoteList + batteryItem.getBatteryDeviceName();
+        } else {
+            remoteList = remoteList + batteryItem.getBatteryDeviceCustomName();
+        }
+        remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
+                + " checked " + batteryStatusCheckTime(batteryItem);
+        if (batteryItem.batteryChargingStatus == BATTERY_DISCHARGING) {
+            remoteList = remoteList + " - discharging";
+        } else {
+            remoteList = remoteList + " - charging";
+        }
+        remoteBatteriesData.setText(remoteList);
+        Log.d(LOGTAG, batteryItem.getBatteryDeviceName());
+        Log.d(LOGTAG, "--- battery level: " + batteryItem.getBatteryLevel() + "%");
     }
 
     public void showBatteryLevel() {
