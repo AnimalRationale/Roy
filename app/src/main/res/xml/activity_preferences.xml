@@ -6,7 +6,7 @@
     <PreferenceCategory
         android:title="@string/preferences_app_settings_title"
         android:key="pref_key_app_settings">
-        <EditTextPreference
+        <pl.appnode.roy.DeviceNameDialogPreference
             android:key="settings_device_custom_name"
             android:title="@string/preferences_edit_text_device_name"
             android:icon="@drawable/ic_editor_mode_edit"
