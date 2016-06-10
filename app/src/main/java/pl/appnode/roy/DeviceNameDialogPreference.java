@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
+
 public class DeviceNameDialogPreference extends EditTextPreference {
 
     public DeviceNameDialogPreference(Context context, AttributeSet attrs, int defStyle) {
@@ -36,6 +38,9 @@ public class DeviceNameDialogPreference extends EditTextPreference {
         if (titleDivider != null) {
             titleDivider.setBackgroundColor(titleColor);
         }
-        window.getDecorView().setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorDarkGrey));
+        if (isDarkTheme(getContext())) {
+            window.getDecorView().setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorDarkGrey));
+            super.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        }
     }
 }
