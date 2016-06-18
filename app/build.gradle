@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "pl.appnode.roy"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 41
+        versionCode 42
         versionName "0.2.14"
     }
     buildTypes {
