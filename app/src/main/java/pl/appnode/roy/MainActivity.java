@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
@@ -91,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog mProgress;
     Menu mMenu;
     DatabaseReference mFireRef;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth mAuth;
-
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private String mUsername;
     static boolean sThemeChangeFlag;
     static GoogleAccountCredential sCredential;
 
@@ -122,11 +123,20 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher);
         }
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            Log.d(LOGTAG, "Firebase login user name: " + mUsername);
+        }
         // Initialise Firebase client, set reference to database, and data change listener
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
         mFireRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
         mFireRef.child("devices").addValueEventListener(new ValueEventListener() {
@@ -259,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         mMenu = menu;
-        setMenuCloudIcon();
+        // setMenuCloudIcon();
         return true;
     }
 
