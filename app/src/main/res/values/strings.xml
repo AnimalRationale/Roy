@@ -30,6 +30,8 @@
     <string name="logged_to_account">Logged to</string>
     <string name="calling_drive_api">Calling Drive API ...</string>
 
+    <string name="firebase_google_sign_in">Sign In</string>
+
     <string name="dialog_about_title"></string>
     <string name="dialog_about_version">Version: \u0020</string>
     <string name="dialog_about_saved_account_name">Saved account name: \u0020</string>

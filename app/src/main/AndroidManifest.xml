@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".MainActivity">
         </activity>
+        <activity android:name=".SignInActivity">
+        </activity>
         <activity
             android:name=".PreferencesActivity"
             android:label="@string/preferences_activity_title" >
