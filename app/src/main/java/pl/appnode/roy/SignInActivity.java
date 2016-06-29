@@ -21,8 +21,6 @@ package pl.appnode.roy;
         import android.support.v7.app.AppCompatActivity;
         import android.util.Log;
         import android.view.View;
-        import android.widget.Button;
-        import android.widget.EditText;
         import android.widget.Toast;
 
         import com.google.android.gms.auth.api.Auth;
@@ -33,8 +31,6 @@ package pl.appnode.roy;
         import com.google.android.gms.common.SignInButton;
         import com.google.android.gms.common.api.GoogleApiClient;
         import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnFailureListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.android.gms.tasks.Task;
         import com.google.firebase.auth.AuthCredential;
         import com.google.firebase.auth.AuthResult;
@@ -152,5 +148,4 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
-
 }
