@@ -666,17 +666,12 @@ public class MainActivity extends AppCompatActivity {
     private void setMenuCloudIcon() {
         if (mMenu != null) {
             MenuItem cloudIcon = mMenu.findItem(R.id.action_fbase);
-            if (sCredential.getSelectedAccountName() != null) {
-                if (isConnection()) {
-                    cloudIcon.setIcon(R.drawable.ic_cloud_queue_white_24dp);
-                    Log.d(LOGTAG, "Ready to connect.");
-                } else {
-                    cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
-                    Log.d(LOGTAG, "No internet connection.");
-                }
+            if (mFirebaseUser != null) {
+                cloudIcon.setIcon(R.drawable.ic_cloud_queue_white_24dp);
+                Log.d(LOGTAG, "Logged in.");
             } else {
                 cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
-                Log.d(LOGTAG, "Logging off.");
+                Log.d(LOGTAG, "Logged off.");
             }
         }
     }
