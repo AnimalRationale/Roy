@@ -32,7 +32,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -276,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_gdrive) {
+        if (id == R.id.action_fbase) {
             if (isGooglePlayServicesAvailable()) {
                 Log.d(LOGTAG, "Google Play Services available");
                 connectToDrive();
@@ -666,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setMenuCloudIcon() {
         if (mMenu != null) {
-            MenuItem cloudIcon = mMenu.findItem(R.id.action_gdrive);
+            MenuItem cloudIcon = mMenu.findItem(R.id.action_fbase);
             if (sCredential.getSelectedAccountName() != null) {
                 if (isConnection()) {
                     cloudIcon.setIcon(R.drawable.ic_cloud_queue_white_24dp);
@@ -686,11 +685,11 @@ public class MainActivity extends AppCompatActivity {
      * Shows snackbar with currently used account name
      */
     private void showAccountName() {
-        if (sCredential.getSelectedAccountName() != null && mShowAccountInfoSnackbar) {
+        if (mFirebaseUser != null && mShowAccountInfoSnackbar) {
             View snackView;
             String hintText;
             snackView = findViewById(R.id.main);
-            hintText = getString(R.string.logged_to_account) + " " + sCredential.getSelectedAccountName();
+            hintText = getString(R.string.logged_to_account) + " " + mUsername;
             if (snackView != null) {
                 Snackbar.make(snackView, hintText, ACCOUNT_HINT_TIME)
                         .show();
