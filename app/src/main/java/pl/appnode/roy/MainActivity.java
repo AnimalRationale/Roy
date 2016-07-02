@@ -268,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         mMenu = menu;
-        // setMenuCloudIcon();
         return true;
     }
 
@@ -276,11 +275,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_fbase) {
-            if (isGooglePlayServicesAvailable()) {
-                Log.d(LOGTAG, "Google Play Services available");
-                connectToDrive();
+            if (mFirebaseUser != null) {
+                Log.d(LOGTAG, "Signing out.");
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, SignInActivity.class));
+                finish();
             } else {
-                Log.d(LOGTAG, "Google Play Services NOT available");
+                Log.d(LOGTAG, "Not sign in.");
             }
         }
         if (id == R.id.action_settings) {
@@ -684,7 +685,7 @@ public class MainActivity extends AppCompatActivity {
             View snackView;
             String hintText;
             snackView = findViewById(R.id.main);
-            hintText = getString(R.string.logged_to_account) + " " + mUsername;
+            hintText = getString(R.string.logged_to_account) + " " + mFirebaseUser.getDisplayName();
             if (snackView != null) {
                 Snackbar.make(snackView, hintText, ACCOUNT_HINT_TIME)
                         .show();
