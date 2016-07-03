@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         } else {
             mUsername = mFirebaseUser.getDisplayName();
+            showAccountName();
             Log.d(LOGTAG, "Firebase login user name: " + mUsername);
         }
         // Initialise Firebase client, set reference to database, and data change listener
@@ -182,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
         setMenuCloudIcon();
-        showAccountName();
     }
 
     @Override
@@ -685,7 +685,7 @@ public class MainActivity extends AppCompatActivity {
             View snackView;
             String hintText;
             snackView = findViewById(R.id.main);
-            hintText = getString(R.string.logged_to_account) + " " + mFirebaseUser.getDisplayName();
+            hintText = getString(R.string.log_in_welcome) + mFirebaseUser.getDisplayName();
             if (snackView != null) {
                 Snackbar.make(snackView, hintText, ACCOUNT_HINT_TIME)
                         .show();

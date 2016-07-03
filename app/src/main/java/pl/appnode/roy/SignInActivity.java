@@ -41,7 +41,7 @@ package pl.appnode.roy;
 public class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    private static final String TAG = "SignInActivity";
+    private static final String LOGTAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private SignInButton mSignInButton;
 
@@ -76,7 +76,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         if (authResult != null) {
             // Welcome the user
             FirebaseUser user = authResult.getUser();
-            Toast.makeText(this, "Welcome " + user.getEmail(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.log_in_welcome + user.getEmail(), Toast.LENGTH_SHORT).show();
 
             // Go back to the main activity
             startActivity(new Intent(this, MainActivity.class));
@@ -112,26 +112,26 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                 firebaseAuthWithGoogle(account);
             } else {
                 // Google Sign In failed
-                Log.e(TAG, "Google Sign In failed.");
+                Log.e(LOGTAG, "Google Sign In failed.");
             }
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGooogle:" + acct.getId());
+        Log.d(LOGTAG, "firebaseAuthWithGooogle: " + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        Log.d(LOGTAG, "signInWithCredential:onComplete: " + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Log.w(LOGTAG, "signInWithCredential", task.getException());
+                            Toast.makeText(SignInActivity.this, R.string.authentication_fail,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
@@ -145,7 +145,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+        Log.d(LOGTAG, "onConnectionFailed:" + connectionResult);
+        Toast.makeText(this, R.string.google_play_services_error, Toast.LENGTH_SHORT).show();
     }
 }

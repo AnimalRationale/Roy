@@ -27,8 +27,11 @@
     <string name="menu_action_clear_list">Clear list</string>
     <string name="menu_action_about">About</string>
 
+    <string name="log_in_welcome">Welcome \u0020</string>
     <string name="logged_to_account">Logged to</string>
-    <string name="logged_out">Logged out</string>
+    <string name="logged_out">Logged out.</string>
+    <string name="authentication_fail">Authentication failed.</string>
+    <string name="google_play_services_error">Google Play Services error.</string>
     <string name="calling_drive_api">Calling Drive API ...</string>
 
     <string name="firebase_google_sign_in">Sign In</string>
