@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_fbase"
         android:title="@string/menu_action_gdrive"
-        android:icon="@drawable/ic_cloud_off_white_24dp"
+        android:icon="@drawable/ic_power_settings_new_white_24dp"
         android:orderInCategory="80"
         app:showAsAction="always" />
     <item

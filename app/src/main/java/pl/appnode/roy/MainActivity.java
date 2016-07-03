@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter screenStatusIntentFilter = new IntentFilter();
         screenStatusIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
-        setMenuCloudIcon();
     }
 
     @Override
@@ -237,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, null);
             editor.apply();
-            setMenuCloudIcon();
             if (isConnection()) {
                 Log.d(LOGTAG, "Ready to connect.");
             } else {
@@ -660,19 +658,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 Log.d(LOGTAG, "Request cancelled.");
-            }
-        }
-    }
-
-    private void setMenuCloudIcon() {
-        if (mMenu != null) {
-            MenuItem cloudIcon = mMenu.findItem(R.id.action_fbase);
-            if (mFirebaseUser != null) {
-                cloudIcon.setIcon(R.drawable.ic_cloud_queue_white_24dp);
-                Log.d(LOGTAG, "Logged in.");
-            } else {
-                cloudIcon.setIcon(R.drawable.ic_cloud_off_white_24dp);
-                Log.d(LOGTAG, "Logged off.");
             }
         }
     }
