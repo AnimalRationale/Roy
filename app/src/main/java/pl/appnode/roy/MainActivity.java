@@ -17,6 +17,7 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -32,6 +33,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -80,7 +85,7 @@ import static pl.appnode.roy.PreferencesSetupHelper.themeSetup;
 import static pl.appnode.roy.PreferencesSetupHelper.uploadAlarmSetup;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String LOGTAG = "MainActivity";
     private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY };
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private String mUsername;
+    private GoogleApiClient mGoogleApiClient;
     static boolean sThemeChangeFlag;
     static GoogleAccountCredential sCredential;
 
@@ -170,6 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
         // Set (or cancel) alarm for local battery status upload accordingly to preferences
         uploadAlarmSetup(this);
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
     }
 
     @Override
@@ -276,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
             if (mFirebaseUser != null) {
                 Log.d(LOGTAG, "Signing out.");
                 mFirebaseAuth.signOut();
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
             } else {
@@ -676,6 +687,14 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Log.d(LOGTAG, "onConnectionFailed:" + connectionResult);
+        Toast.makeText(this, R.string.google_play_services_error, Toast.LENGTH_SHORT).show();
     }
 
     private void checkThemeChange() { // Restarts activity if user changed theme
