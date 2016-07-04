@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,8 +33,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,21 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.FileList;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static pl.appnode.roy.Constants.ACCOUNT_HINT_TIME;
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
@@ -88,7 +71,6 @@ import static pl.appnode.roy.PreferencesSetupHelper.uploadAlarmSetup;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String LOGTAG = "MainActivity";
-    private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY };
 
     int mBatteryIndicatorAnimationCounter;
     boolean mShowAccountInfoSnackbar = true;
@@ -168,12 +150,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
         mProgress = new ProgressDialog(this);
         mProgress.setMessage(getString(R.string.calling_drive_api));
-        // Initialise credentials and service object.
-        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-        sCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff())
-                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
         // Set (or cancel) alarm for local battery status upload accordingly to preferences
         uploadAlarmSetup(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -231,29 +207,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    /**
-     * Attempt to get a set of data from the Drive API to display. If the
-     * email address isn't known yet, then call chooseAccount() method so the
-     * user can pick an account.
-     */
-    private void connectToDrive() {
-        if (sCredential.getSelectedAccountName() == null) {
-            chooseAccount();
-        } else {
-            sCredential.setSelectedAccountName(null);
-            SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(PREF_ACCOUNT_NAME, null);
-            editor.apply();
-            if (isConnection()) {
-                Log.d(LOGTAG, "Ready to connect.");
-            } else {
-                Log.d(LOGTAG, "No internet connection.");
-            }
-        }
-    }
-
 
     private void chooseAccount() {
         startActivityForResult(
@@ -583,94 +536,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             return false;
         }
         return true;
-    }
-
-    /**
-     * An asynchronous task that handles the Drive API call.
-     * Placing the API calls in their own task ensures the UI stays responsive.
-     */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.drive.Drive mService = null;
-        private Exception mLastError = null;
-
-        public MakeRequestTask(GoogleAccountCredential credential) {
-            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            mService = new com.google.api.services.drive.Drive.Builder(
-                    transport, jsonFactory, credential)
-                    .setApplicationName("Roy")
-                    .build();
-        }
-
-        /**
-         * Background task to call Drive API.
-         * @param params no parameters needed for this task.
-         */
-        @Override
-        protected List<String> doInBackground(Void... params) {
-            try {
-                return getDataFromApi();
-            } catch (Exception e) {
-                Log.d(LOGTAG, "Exception getDataFromApi " + e);
-                mLastError = e;
-                cancel(true);
-                return null;
-            }
-        }
-
-        /**
-         * Fetch a list of up to 10 file names and IDs.
-         * @return List of Strings describing files, or an empty list if no files
-         *         found.
-         * @throws IOException
-         */
-        private List<String> getDataFromApi() throws IOException {
-            // Get a list of up to 10 files.
-            List<String> fileInfo = new ArrayList<String>();
-                FileList result = mService.files().list()
-                        .setPageSize(10)
-                        .setFields("nextPageToken, items(id, name)")
-                        .execute();
-                List<File> files = result.getFiles();
-                if (files != null) {
-                    for (File file : files) {
-                        fileInfo.add(String.format("%s (%s)\n",
-                                file.getName(), file.getId()));
-                    }
-                }
-            return fileInfo;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            mProgress.show();
-        }
-
-        @Override
-        protected void onPostExecute(List<String> output) {
-            mProgress.hide();
-            if (output == null || output.size() == 0) {
-                Log.d(LOGTAG, "No results returned.");
-            } else {
-                output.add(0, "Data retrieved using the Drive API:");
-                Log.d(LOGTAG, TextUtils.join("\n", output));
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mProgress.hide();
-            if (mLastError != null) {
-                Log.d(LOGTAG, "Cancel, error occurred: " + mLastError.getMessage());
-                if (mLastError instanceof UserRecoverableAuthIOException) {
-                    startActivityForResult(((UserRecoverableAuthIOException) mLastError)
-                            .getIntent(), REQUEST_AUTHORIZATION);
-                }
-            } else {
-                Log.d(LOGTAG, "Request cancelled.");
-            }
-        }
     }
 
     /**
