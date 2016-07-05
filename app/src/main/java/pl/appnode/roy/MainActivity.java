@@ -1,13 +1,10 @@
 package pl.appnode.roy;
 
-import android.accounts.AccountManager;
 import android.animation.ObjectAnimator;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
@@ -56,10 +53,6 @@ import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
 import static pl.appnode.roy.Constants.DAY_IN_MILLIS;
 import static pl.appnode.roy.Constants.HOUR_IN_MILLIS;
 import static pl.appnode.roy.Constants.MINUTE_IN_MILLIS;
-import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
-import static pl.appnode.roy.Constants.REQUEST_ACCOUNT_PICKER;
-import static pl.appnode.roy.Constants.REQUEST_AUTHORIZATION;
-import static pl.appnode.roy.Constants.REQUEST_GOOGLE_PLAY_SERVICES;
 import static pl.appnode.roy.PreferencesSetupHelper.getDeviceCustomName;
 import static pl.appnode.roy.PreferencesSetupHelper.isDarkTheme;
 import static pl.appnode.roy.PreferencesSetupHelper.isTransitionsOn;
@@ -75,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     int mBatteryIndicatorAnimationCounter;
     boolean mShowAccountInfoSnackbar = true;
     BatteryItem mLocalBattery = new BatteryItem();
-    ProgressDialog mProgress;
     Menu mMenu;
     DatabaseReference mFireRef;
     private FirebaseAuth mFirebaseAuth;
@@ -148,8 +140,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Log.d(LOGTAG, "Firebase error: " + firebaseError.getMessage());
             }
         });
-        mProgress = new ProgressDialog(this);
-        mProgress.setMessage(getString(R.string.calling_drive_api));
         // Set (or cancel) alarm for local battery status upload accordingly to preferences
         uploadAlarmSetup(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -170,48 +160,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         registerReceiver(mPowerConnectionBroadcastReceiver, new IntentFilter(screenStatusIntentFilter));
     }
 
-    @Override
-    protected void onActivityResult(
-            int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case REQUEST_GOOGLE_PLAY_SERVICES:
-                if (resultCode != RESULT_OK) {
-                    isGooglePlayServicesAvailable();
-                }
-                break;
-            case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == RESULT_OK && data != null &&
-                        data.getExtras() != null) {
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        sCredential.setSelectedAccountName(accountName);
-                        SharedPreferences settings =
-                                getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_ACCOUNT_NAME, accountName);
-                        editor.apply();
-                        showAccountName();
-                        Log.d(LOGTAG, "Account name: " + accountName);
-                    }
-                } else if (resultCode == RESULT_CANCELED) {
-                    Log.d(LOGTAG, "Account unspecified.");
-                }
-                break;
-            case REQUEST_AUTHORIZATION:
-                if (resultCode != RESULT_OK) {
-                    chooseAccount();
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    private void chooseAccount() {
-        startActivityForResult(
-                sCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
-    }
 
     @Override
     public void onPause() {
@@ -523,16 +472,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             Toast toast = Toast.makeText(this,
                     R.string.error_network_access, Toast.LENGTH_SHORT);
             toast.show();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isGooglePlayServicesAvailable() {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        final int connectionStatusCode = googleAPI.isGooglePlayServicesAvailable(this);
-        Log.d(LOGTAG, "GPSA status: " + connectionStatusCode + " - expected: " + ConnectionResult.SUCCESS);
-        if (connectionStatusCode != ConnectionResult.SUCCESS ) {
             return false;
         }
         return true;
