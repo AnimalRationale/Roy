@@ -38,13 +38,14 @@ package pl.appnode.roy;
         import com.google.firebase.auth.FirebaseUser;
         import com.google.firebase.auth.GoogleAuthProvider;
 
+        import static pl.appnode.roy.Constants.REQUEST_SIGN_IN;
+
+
 public class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
     private static final String LOGTAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 9001;
     private SignInButton mSignInButton;
-
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mFirebaseAuth;
 
@@ -96,7 +97,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, REQUEST_SIGN_IN);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == REQUEST_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase

@@ -2,7 +2,6 @@ package pl.appnode.roy;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import static pl.appnode.roy.Constants.PREF_ACCOUNT_NAME;
 
 /**
  * Shows information dialog with application's launcher icon, name, version and code version
@@ -21,8 +19,7 @@ class AboutDialog {
     private static String LOGTAG = "AboutDialog";
     private static String sVersionName;
     private static String sVersionCode;
-    private static String sSavedAccountName;
-    private static String sCredentialsAccountName;
+    private static String sUserAccountName;
     private static AlertDialog sAboutDialog;
 
     private static void versionInfo(Context context) {
@@ -38,33 +35,28 @@ class AboutDialog {
         }
     }
 
-    private static void accountNameSavedInPreferences(Activity context) {
-        SharedPreferences settings = context.getPreferences(Context.MODE_PRIVATE);
-        sSavedAccountName = settings.getString(PREF_ACCOUNT_NAME, null);
-        Log.d(LOGTAG, "Account name: " + sSavedAccountName);
-    }
-
     private static void accountNameInCredentials() {
-        sCredentialsAccountName = MainActivity.getCredentialsAccountName();
-        Log.d(LOGTAG, "Account name in credentials: " + sCredentialsAccountName);
+        if (MainActivity.getUsername() != null) {
+            sUserAccountName = MainActivity.getUsername();
+        } else {
+            sUserAccountName = "Not logged in";
+        }
+        Log.d(LOGTAG, "Google SignIn account name: " + sUserAccountName);
     }
 
     public static void showDialog(Activity callingActivity) {
         versionInfo(callingActivity);
-        accountNameSavedInPreferences(callingActivity);
         accountNameInCredentials();
         String aboutVersion = sVersionName + "." + sVersionCode;
         LayoutInflater layoutInflater = LayoutInflater.from(callingActivity);
         View aboutDialogView = layoutInflater.inflate(R.layout.dialog_about, null) ;
         TextView textAbout = (TextView) aboutDialogView.findViewById(R.id.aboutDialogInfo);
         textAbout.setText(aboutVersion);
-        if (sSavedAccountName != null && sCredentialsAccountName != null) {
+        if (sUserAccountName != null) {
             View accountInfo = aboutDialogView.findViewById(R.id.aboutDialogGoogleAccountInfo);
             accountInfo.setVisibility(View.VISIBLE);
-            TextView textSavedAccountName = (TextView) aboutDialogView.findViewById(R.id.aboutDialogSavedAccountName);
-            textSavedAccountName.setText(sSavedAccountName);
             TextView textCredentialsAccountName = (TextView) aboutDialogView.findViewById(R.id.aboutDialogCredentialsAccountName);
-            textCredentialsAccountName.setText(sCredentialsAccountName);
+            textCredentialsAccountName.setText(sUserAccountName);
         }
         TextView textRemoteDatabse = (TextView) aboutDialogView.findViewById(R.id.aboutDialogFirebaseAddress);
         textRemoteDatabse.setText(BuildConfig.FB_BASE_ADDRESS);

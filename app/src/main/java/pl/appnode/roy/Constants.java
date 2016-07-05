@@ -34,13 +34,8 @@ final class Constants {
     public static final String KEY_SETTINGS_ORIENTATION = "settings_checkbox_orientation";
     public static final String KEY_SETTINGS_TRANSITIONS = "settings_checkbox_transitions";
 
-    /** Key for saving name of logged in account */
-    public static final String PREF_ACCOUNT_NAME = "accountName";
-
     /** Request codes for intents */
-    public static final int REQUEST_ACCOUNT_PICKER = 1000;
-    public static final int REQUEST_AUTHORIZATION = 1001;
-    public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    public static final int REQUEST_SIGN_IN = 9001;
 
     /** Current account snackbar info display time in milliseconds*/
     public static final int ACCOUNT_HINT_TIME = 2000;

@@ -39,8 +39,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import static pl.appnode.roy.Constants.ACCOUNT_HINT_TIME;
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
@@ -72,13 +70,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     DatabaseReference mFireRef;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private String mUsername;
+    private static String mUsername;
     private GoogleApiClient mGoogleApiClient;
     static boolean sThemeChangeFlag;
-    static GoogleAccountCredential sCredential;
 
-    public static String getCredentialsAccountName() {
-        return sCredential.getSelectedAccountName();
+    public static String getUsername() {
+        return mUsername;
     }
 
     private final BroadcastReceiver mPowerConnectionBroadcastReceiver = new BroadcastReceiver() {
