@@ -246,7 +246,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
         remoteList = remoteList + ": " + batteryItem.getBatteryLevel() + "%"
                 + " checked " + batteryStatusCheckTime(batteryItem);
-        if (batteryItem.batteryChargingStatus == BATTERY_DISCHARGING) {
+        // Some discharging devices return "0", some "-1"
+        if (batteryItem.batteryChargingStatus < BATTERY_CHARGING) {
             remoteList = remoteList + " - discharging";
         } else {
             remoteList = remoteList + " - charging";
