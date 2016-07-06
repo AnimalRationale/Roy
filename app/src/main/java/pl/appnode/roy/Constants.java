@@ -14,7 +14,8 @@ final class Constants {
     static final int BATTERY_PLUGGED_USB = 2;
     static final int BATTERY_PLUGGED_WIRELESS = 3;
 
-    static final int BATTERY_DISCHARGING = 0;
+    static final int BATTERY_DISCHARGING_1 = 0;
+    static final int BATTERY_DISCHARGING_2 = -1;
     static final int BATTERY_CHARGING = 1;
 
     /** Time units in milliseconds, used to determine time from last battery status check */

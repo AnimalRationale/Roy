@@ -43,7 +43,8 @@ import com.google.android.gms.common.ConnectionResult;
 import static pl.appnode.roy.Constants.ACCOUNT_HINT_TIME;
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
-import static pl.appnode.roy.Constants.BATTERY_DISCHARGING;
+import static pl.appnode.roy.Constants.BATTERY_DISCHARGING_1;
+import static pl.appnode.roy.Constants.BATTERY_DISCHARGING_2;
 import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
@@ -333,7 +334,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 batteryCharge.setText(getString(R.string.battery_charging));
                 batteryCharging.getDrawable().setColorFilter(indicatorColor, PorterDuff.Mode.SRC_IN);
                 break;
-            case BATTERY_DISCHARGING:
+            case BATTERY_DISCHARGING_1:
+                batteryCharge.setText(getString(R.string.battery_discharging));
+                batteryCharging.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
+                break;
+            case BATTERY_DISCHARGING_2:
                 batteryCharge.setText(getString(R.string.battery_discharging));
                 batteryCharging.getDrawable().setColorFilter(iconDefaultColor, PorterDuff.Mode.SRC_IN);
                 break;
@@ -406,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 batteryChargeStatus = BATTERY_CHARGING;
                 break;
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
-                batteryChargeStatus = BATTERY_DISCHARGING;
+                batteryChargeStatus = BATTERY_DISCHARGING_1;
                 break;
             default:
                 batteryChargeStatus = BATTERY_CHECK_ERROR;

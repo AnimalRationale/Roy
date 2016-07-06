@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import static pl.appnode.roy.Constants.BATTERY_CHARGING;
 import static pl.appnode.roy.Constants.BATTERY_CHECK_ERROR;
-import static pl.appnode.roy.Constants.BATTERY_DISCHARGING;
+import static pl.appnode.roy.Constants.BATTERY_DISCHARGING_1;
 import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
@@ -85,7 +85,7 @@ public class RemoteUpdateService extends Service {
                 batteryChargeStatus = BATTERY_CHARGING;
                 break;
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
-                batteryChargeStatus = BATTERY_DISCHARGING;
+                batteryChargeStatus = BATTERY_DISCHARGING_1;
                 break;
             default:
                 batteryChargeStatus = BATTERY_CHECK_ERROR;
