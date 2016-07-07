@@ -49,6 +49,7 @@ import static pl.appnode.roy.Constants.BATTERY_NOT_PLUGGED;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_AC;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_USB;
 import static pl.appnode.roy.Constants.BATTERY_PLUGGED_WIRELESS;
+import static pl.appnode.roy.Constants.CANCEL_WAKE_UP_ALARM;
 import static pl.appnode.roy.Constants.DAY_IN_MILLIS;
 import static pl.appnode.roy.Constants.HOUR_IN_MILLIS;
 import static pl.appnode.roy.Constants.MINUTE_IN_MILLIS;
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Log.d(LOGTAG, "Signing out.");
                 mFirebaseAuth.signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                WakeUpAlarmHelper.alarmManager(0, CANCEL_WAKE_UP_ALARM);
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
             } else {
