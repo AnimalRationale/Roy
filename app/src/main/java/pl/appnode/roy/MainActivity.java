@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     BatteryItem mLocalBattery = new BatteryItem();
     Menu mMenu;
     DatabaseReference mFireRef;
+    DatabaseReference mFireRefUser;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private static String mUsername;
@@ -117,7 +118,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // Initialise Firebase client, set reference to database, and data change listener
         mFireRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
-        mFireRef.child("devices").addValueEventListener(new ValueEventListener() {
+        mFireRefUser = mFireRef.child(mFirebaseUser.getUid());
+        Log.d(LOGTAG, "ID: " + mFireRefUser);
+        mFireRefUser.child("devices").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d(LOGTAG, "Data: "+ snapshot.getValue());
@@ -212,12 +215,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void uploadBatteryStatusButton(View button) {
-        DatabaseReference localBatteryRef = mFireRef.child("devices").child(mLocalBattery.batteryDeviceId);
+        DatabaseReference localBatteryRef = mFireRefUser.child("devices").child(mLocalBattery.batteryDeviceId);
         localBatteryRef.setValue(mLocalBattery);
     }
 
     public void downloadBatteriesInfoButton(View button) {
-        mFireRef.child("devices").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFireRefUser.child("devices").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 TextView remoteBatteriesData = (TextView) findViewById(R.id.text_remote_data);
