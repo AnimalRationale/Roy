@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,20 +27,29 @@ public class RemoteUpdateService extends Service {
 
     private static final String LOGTAG = "RemoteUpdateService";
     DatabaseReference mFireRef;
+    DatabaseReference mFireRefUser;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mFireRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
     }
 
     @Override
     public int onStartCommand(Intent startIntent, int flags, int startId) {
-        int startMode = START_STICKY;
-        Log.d(LOGTAG, "Service started.");
-        DatabaseReference localBatteryRef = mFireRef.child("devices").child(readLocalBatteryStatus().batteryDeviceId);
-        localBatteryRef.setValue(readLocalBatteryStatus());
+        int startMode = START_NOT_STICKY;
+        mFireRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl(BuildConfig.FB_BASE_ADDRESS);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        if (mFirebaseAuth != null) {mFirebaseUser = mFirebaseAuth.getCurrentUser();}
+        if (mFireRef != null && mFirebaseUser != null) {
+            mFireRefUser = mFireRef.child(mFirebaseUser.getUid());
+            startMode = START_STICKY;
+            Log.d(LOGTAG, "Service started.");
+            DatabaseReference localBatteryRef = mFireRefUser.child("devices").child(readLocalBatteryStatus().batteryDeviceId);
+            localBatteryRef.setValue(readLocalBatteryStatus());
+        }
         return startMode;
     }
 
